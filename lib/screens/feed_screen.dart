@@ -29,135 +29,148 @@ class _FeedScreenState extends State<FeedScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Row(
-                children: [
-                  CircleAvatar(
-                    radius: 35,
-                    backgroundColor: Color(0xffc2c2c2),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Welcome Back',
-                        style: GoogleFonts.firaSans(
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 10),
-                        child: Text(
-                          'Guest',
-                          style: TextStyleConst().headingStyle(
-                            color: Colors.black,
-                            size: 35,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Row(
+                  children: [
+                    CircleAvatar(
+                      radius: 35,
+                      backgroundColor: Color(0xffc2c2c2),
+                    ),
+                    SizedBox(width: 10),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Welcome Back',
+                          style: GoogleFonts.firaSans(
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            adWidget(
-              label: 'Get Your Special\nSale upto ',
-              imageUrl: 'assets/ads-1.png',
-              discount: 50,
-            ),
-            SizedBox(
-              height: 50,
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                height: 50,
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: categories.map((category) {
-                      return GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _currentIdx = categories.indexOf(category);
-                            });
-                          },
-                          child: Container(
-                            height: 50,
-                            padding: const EdgeInsets.symmetric(horizontal: 30),
-                            margin: const EdgeInsets.only(right: 10),
-                            decoration: BoxDecoration(
-                              color: _currentIdx != categories.indexOf(category)
-                                  ? Colors.white
-                                  : Color(0xff1a1f22),
-                              borderRadius: BorderRadius.circular(50),
-                              border: Border.all(
-                                color: Colors.black,
-                                width: 1,
-                              ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10),
+                          child: Text(
+                            'Guest',
+                            style: TextStyleConst().headingStyle(
+                              color: Colors.black,
+                              size: 35,
                             ),
-                            child: Center(
-                              child: Text(
-                                category,
-                                style: TextStyleConst().regularStyle(
-                                  color: _currentIdx !=
-                                          categories.indexOf(category)
-                                      ? Colors.black
-                                      : Colors.white,
-                                  size: 25,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              adWidget(
+                label: 'Get Your Special\nSale upto ',
+                imageUrl: 'assets/ads-1.png',
+                discount: 50,
+              ),
+              SizedBox(height: 50),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  height: 50,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: categories.map((category) {
+                        return GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _currentIdx = categories.indexOf(category);
+                              });
+                            },
+                            child: Container(
+                              height: 50,
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 30),
+                              margin: const EdgeInsets.only(right: 10),
+                              decoration: BoxDecoration(
+                                color:
+                                    _currentIdx != categories.indexOf(category)
+                                        ? Colors.white
+                                        : Color(0xff1a1f22),
+                                borderRadius: BorderRadius.circular(50),
+                                border: Border.all(
+                                  color: Colors.black,
+                                  width: 1,
                                 ),
                               ),
-                            ),
-                          ));
-                    }).toList(),
+                              child: Center(
+                                child: Text(
+                                  category,
+                                  style: TextStyleConst().regularStyle(
+                                    color: _currentIdx !=
+                                            categories.indexOf(category)
+                                        ? Colors.black
+                                        : Colors.white,
+                                    size: 25,
+                                  ),
+                                ),
+                              ),
+                            ));
+                      }).toList(),
+                    ),
                   ),
                 ),
               ),
-            ),
-
-            // products
-
-            Expanded(
-              child: GridView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 4 / 3,
+              // Product grid
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GridView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 0.72,
+                  ),
+                  itemCount: 10,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: Image.network(
+                                'https://crazymonk.in/cdn/shop/files/FireFistAce_2.jpg?v=1746190552&width=360',
+                                width: 200,
+                                height: 200,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            SizedBox(height: 8),
+                            Text('Product Name',
+                                style: TextStyleConst().headingStyle(
+                                  color: Colors.black,
+                                  size: 25,
+                                )),
+                            Text('\$100',
+                                style: TextStyleConst().headingStyle(
+                                  color: Colors.black,
+                                  size: 25,
+                                )),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
                 ),
-                itemCount: 10,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Column(
-                        children: [
-                          Image.network(
-                            'https://via.placeholder.com/150',
-                            height: 200,
-                            width: 200,
-                            fit: BoxFit.cover,
-                          ),
-                          Text('Product Name'),
-                          Text('Product Price'),
-                        ],
-                      ),
-                    ),
-                  );
-                },
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
