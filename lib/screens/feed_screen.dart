@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../widgets/ad_widget.dart';
+import 'product_screen.dart';
 
 class FeedScreen extends StatefulWidget {
   const FeedScreen({super.key});
@@ -132,37 +133,49 @@ class _FeedScreenState extends State<FeedScreen> {
                   ),
                   itemCount: 10,
                   itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(20),
-                              child: Image.network(
-                                'https://crazymonk.in/cdn/shop/files/FireFistAce_2.jpg?v=1746190552&width=360',
-                                width: 200,
-                                height: 200,
-                                fit: BoxFit.cover,
-                              ),
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProductDetailsScreen(
+                              productID: 'productID',
                             ),
-                            SizedBox(height: 8),
-                            Text('Product Name',
-                                style: TextStyleConst().headingStyle(
-                                  color: Colors.black,
-                                  size: 25,
-                                )),
-                            Text('\$100',
-                                style: TextStyleConst().headingStyle(
-                                  color: Colors.black,
-                                  size: 25,
-                                )),
-                          ],
+                          ),
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(20),
+                                child: Image.network(
+                                  'https://crazymonk.in/cdn/shop/files/FireFistAce_2.jpg?v=1746190552&width=360',
+                                  width: 200,
+                                  height: 200,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              SizedBox(height: 8),
+                              Text('Product Name',
+                                  style: TextStyleConst().headingStyle(
+                                    color: Colors.black,
+                                    size: 25,
+                                  )),
+                              Text('\$100',
+                                  style: TextStyleConst().headingStyle(
+                                    color: Colors.black,
+                                    size: 25,
+                                  )),
+                            ],
+                          ),
                         ),
                       ),
                     );
