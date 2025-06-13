@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:clozet/screens/feed_screen.dart';
+import 'package:clozet/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/constants/textstyle.dart';
@@ -112,7 +113,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (context) => const FeedScreen(),
+                                  builder: (context) => const HomeScreen(),
                                 ),
                               );
                             }

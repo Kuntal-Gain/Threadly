@@ -21,6 +21,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
   int _currentIdx = 0;
   int _selectedSz = 0;
+  int _quantity = 0;
 
   List<String> sizes = ['S', 'M', 'L', 'XL', 'XXL'];
 
@@ -266,6 +267,97 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     ),
                   );
                 }).toList(),
+              ),
+              SizedBox(height: 20),
+              Container(
+                width: mq.width,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Expanded(
+                      child: Container(
+                          height: mq.height * 7,
+                          margin: const EdgeInsets.all(7),
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          decoration: BoxDecoration(
+                            color: Color(0xff1c282e),
+                            borderRadius: BorderRadius.circular(50),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _quantity++;
+                                  });
+                                },
+                                icon: Icon(Icons.add, color: Colors.white),
+                              ),
+                              AnimatedSwitcher(
+                                duration: Duration(milliseconds: 300),
+                                transitionBuilder: (Widget child,
+                                    Animation<double> animation) {
+                                  return ScaleTransition(
+                                      scale: animation, child: child);
+                                  // You can also try: FadeTransition(opacity: animation, child: child);
+                                },
+                                child: Text(
+                                  '$_quantity',
+                                  key: ValueKey<int>(
+                                      _quantity), // This is important for AnimatedSwitcher to know the value changed
+                                  style: TextStyleConst().headingStyle(
+                                    color: Colors.white,
+                                    size: 25,
+                                  ),
+                                ),
+                              ),
+                              IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _quantity--;
+                                  });
+                                },
+                                icon: Icon(Icons.remove, color: Colors.white),
+                              ),
+                            ],
+                          )),
+                    ),
+                    SizedBox(width: 25),
+                    Expanded(
+                      child: Container(
+                        height: mq.height * 7,
+                        margin: const EdgeInsets.all(7),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "Add to Cart",
+                            style: TextStyleConst().headingStyle(
+                              color: Colors.black,
+                              size: 26,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                height: mq.height * 0.08,
+                margin: const EdgeInsets.symmetric(horizontal: 20),
+                decoration: BoxDecoration(
+                  color: Color(0xff131b1e),
+                  borderRadius: BorderRadius.circular(50),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color(0xffc2c2c2),
+                      blurRadius: 3,
+                      spreadRadius: 1,
+                    ),
+                  ],
+                ),
               )
             ],
           ),
