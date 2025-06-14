@@ -157,7 +157,7 @@ class _FeedScreenState extends State<FeedScreen> {
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(20),
                                 child: Image.network(
-                                  'https://crazymonk.in/cdn/shop/files/FireFistAce_2.jpg?v=1746190552&width=360',
+                                  'https://crazymonk.in/cdn/shop/files/CMVersity_1_CM.jpg?v=1749447196&width=713',
                                   width: 200,
                                   height: 200,
                                   fit: BoxFit.cover,

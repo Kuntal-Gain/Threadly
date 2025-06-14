@@ -2,6 +2,7 @@ import 'package:clozet/screens/feed_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/widgets/nav_icons.dart';
+import 'search_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -26,11 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _screens = [
       FeedScreen(),
-      Container(
-        child: Center(
-          child: Text("Search"),
-        ),
-      ),
+      SearchScreen(),
       Container(
         child: Center(
           child: Text("Bag"),
