@@ -9,4 +9,5 @@ class AppColor {
 
   static const Color grayBG = Color(0xffc2c2c2);
   static const Color gray = Color(0xffc2c2c2);
+  static const Color btnGray = Color(0xffebebeb);
 }

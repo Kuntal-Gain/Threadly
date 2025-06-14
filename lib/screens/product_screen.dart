@@ -79,7 +79,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 margin: const EdgeInsets.only(bottom: 10),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
-                                  boxShadow: [
+                                  boxShadow: const [
                                     BoxShadow(
                                       color: Colors.black,
                                       blurRadius: 3,
@@ -110,7 +110,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                       Center(
                                         child: Text(
                                           '+${images.length - 3}',
-                                          style: TextStyle(
+                                          style: const TextStyle(
                                             color: Colors.white,
                                             fontSize: 24,
                                             fontWeight: FontWeight.bold,
@@ -134,7 +134,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       onTap: () {
                         Navigator.pop(context);
                       },
-                      child: CircleAvatar(
+                      child: const CircleAvatar(
                         radius: 27,
                         backgroundColor: Color(0xffc2c2c2),
                         child: Icon(Icons.arrow_back_ios, size: 25),
@@ -165,10 +165,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           height: 40,
                           width: 80,
                           decoration: BoxDecoration(
-                            color: Color(0xff131b1e),
+                            color: const Color(0xff131b1e),
                             borderRadius: BorderRadius.circular(50),
                           ),
-                          child: Row(
+                          child: const Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(
@@ -188,28 +188,28 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           ),
                         ),
                       ),
-                      Text("Ratings")
+                      const Text("Ratings")
                     ],
                   ),
 
-                  CircleAvatar(
+                  const CircleAvatar(
                     radius: 5,
                     backgroundColor: Colors.grey,
                   ),
 
                   // reviews
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 18.0),
                     child: Text("1.5K+ Reviews"),
                   ),
 
-                  CircleAvatar(
+                  const CircleAvatar(
                     radius: 5,
                     backgroundColor: Colors.grey,
                   ),
                   // Sold
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 18.0),
                     child: Text("3.4K Sold"),
                   ),
                 ],
@@ -241,10 +241,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                       width: 60,
                       decoration: BoxDecoration(
                         color: idx == _selectedSz
-                            ? Color(0xff131b1e)
+                            ? const Color(0xff131b1e)
                             : Colors.white,
                         borderRadius: BorderRadius.circular(50),
-                        boxShadow: [
+                        boxShadow: const [
                           BoxShadow(
                             color: Color(0xffc2c2c2),
                             blurRadius: 3,
@@ -268,9 +268,22 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   );
                 }).toList(),
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Container(
                 width: mq.width,
+                height: mq.height * 0.08,
+                margin: const EdgeInsets.symmetric(horizontal: 20),
+                decoration: BoxDecoration(
+                  color: const Color(0xff131b1e),
+                  borderRadius: BorderRadius.circular(50),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color(0xffc2c2c2),
+                      blurRadius: 3,
+                      spreadRadius: 1,
+                    ),
+                  ],
+                ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -280,7 +293,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           margin: const EdgeInsets.all(7),
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           decoration: BoxDecoration(
-                            color: Color(0xff1c282e),
+                            color: const Color(0xff1c282e),
                             borderRadius: BorderRadius.circular(50),
                           ),
                           child: Row(
@@ -292,10 +305,11 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     _quantity++;
                                   });
                                 },
-                                icon: Icon(Icons.add, color: Colors.white),
+                                icon:
+                                    const Icon(Icons.add, color: Colors.white),
                               ),
                               AnimatedSwitcher(
-                                duration: Duration(milliseconds: 300),
+                                duration: const Duration(milliseconds: 300),
                                 transitionBuilder: (Widget child,
                                     Animation<double> animation) {
                                   return ScaleTransition(
@@ -318,12 +332,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     _quantity--;
                                   });
                                 },
-                                icon: Icon(Icons.remove, color: Colors.white),
+                                icon: const Icon(Icons.remove,
+                                    color: Colors.white),
                               ),
                             ],
                           )),
                     ),
-                    SizedBox(width: 25),
+                    const SizedBox(width: 25),
                     Expanded(
                       child: Container(
                         height: mq.height * 7,
@@ -342,19 +357,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                height: mq.height * 0.08,
-                margin: const EdgeInsets.symmetric(horizontal: 20),
-                decoration: BoxDecoration(
-                  color: Color(0xff131b1e),
-                  borderRadius: BorderRadius.circular(50),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Color(0xffc2c2c2),
-                      blurRadius: 3,
-                      spreadRadius: 1,
                     ),
                   ],
                 ),

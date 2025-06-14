@@ -37,7 +37,7 @@ class _SearchScreenState extends State<SearchScreen> {
                 decoration: BoxDecoration(
                   color: AppColor.white,
                   borderRadius: BorderRadius.circular(50),
-                  boxShadow: [
+                  boxShadow: const [
                     BoxShadow(
                       color: AppColor.gray,
                       blurRadius: 2,
@@ -51,7 +51,7 @@ class _SearchScreenState extends State<SearchScreen> {
                       width: 25,
                       height: 25,
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     Expanded(
                       child: TextField(
                         controller: _controller,
@@ -71,23 +71,22 @@ class _SearchScreenState extends State<SearchScreen> {
                       ),
                     ),
                     AnimatedSwitcher(
-                      duration: Duration(milliseconds: 250),
+                      duration: const Duration(milliseconds: 250),
                       transitionBuilder: (child, animation) {
                         return FadeTransition(opacity: animation, child: child);
                       },
                       child: currentText.isNotEmpty
                           ? Row(
-                              key: ValueKey('show_close'),
+                              key: const ValueKey('show_close'),
                               children: [
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 8.0),
+                                const Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 8.0),
                                   child: VerticalDivider(
                                     thickness: 1,
                                     color: AppColor.gray,
                                   ),
                                 ),
-                                SizedBox(width: 10),
+                                const SizedBox(width: 10),
                                 GestureDetector(
                                   onTap: () {
                                     _controller.clear();
@@ -103,7 +102,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                 ),
                               ],
                             )
-                          : SizedBox(
+                          : const SizedBox(
                               key: ValueKey('hide_close'),
                               width: 0,
                             ),
@@ -150,7 +149,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ProductDetailsScreen(
+                            builder: (context) => const ProductDetailsScreen(
                               productID: 'productID',
                             ),
                           ),
@@ -175,7 +174,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                   fit: BoxFit.cover,
                                 ),
                               ),
-                              SizedBox(height: 8),
+                              const SizedBox(height: 8),
                               Text('Product Name',
                                   style: TextStyleConst().headingStyle(
                                     color: Colors.black,

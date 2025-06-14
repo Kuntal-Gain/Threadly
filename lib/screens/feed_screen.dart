@@ -37,11 +37,11 @@ class _FeedScreenState extends State<FeedScreen> {
                 padding: const EdgeInsets.all(12.0),
                 child: Row(
                   children: [
-                    CircleAvatar(
+                    const CircleAvatar(
                       radius: 35,
                       backgroundColor: Color(0xffc2c2c2),
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -72,7 +72,7 @@ class _FeedScreenState extends State<FeedScreen> {
                 imageUrl: 'assets/ads-1.png',
                 discount: 50,
               ),
-              SizedBox(height: 50),
+              const SizedBox(height: 50),
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: SizedBox(
@@ -96,7 +96,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                 color:
                                     _currentIdx != categories.indexOf(category)
                                         ? Colors.white
-                                        : Color(0xff1a1f22),
+                                        : const Color(0xff1a1f22),
                                 borderRadius: BorderRadius.circular(50),
                                 border: Border.all(
                                   color: Colors.black,
@@ -138,7 +138,7 @@ class _FeedScreenState extends State<FeedScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => ProductDetailsScreen(
+                            builder: (context) => const ProductDetailsScreen(
                               productID: 'productID',
                             ),
                           ),
@@ -163,7 +163,7 @@ class _FeedScreenState extends State<FeedScreen> {
                                   fit: BoxFit.cover,
                                 ),
                               ),
-                              SizedBox(height: 8),
+                              const SizedBox(height: 8),
                               Text('Product Name',
                                   style: TextStyleConst().headingStyle(
                                     color: Colors.black,

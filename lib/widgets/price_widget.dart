@@ -19,21 +19,21 @@ Widget priceWidget({required double price, required double discount}) {
       Text(
         "\$${price.toStringAsFixed(0)}",
         style: TextStyleConst().headingStyle(
-          textStyle: TextStyle(
+          textStyle: const TextStyle(
             decoration: TextDecoration.lineThrough,
           ),
           color: Colors.grey,
           size: 25,
         ),
       ),
-      SizedBox(
+      const SizedBox(
         width: 10,
       ),
       Container(
         width: 50,
         height: 30,
         decoration: BoxDecoration(
-          color: Color(0xffc2c2c2),
+          color: const Color(0xffc2c2c2),
           borderRadius: BorderRadius.circular(50),
         ),
         child: Center(

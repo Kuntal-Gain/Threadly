@@ -1,3 +1,4 @@
+import 'package:clozet/screens/cart_screen.dart';
 import 'package:clozet/screens/feed_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -26,17 +27,11 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _screens = [
-      FeedScreen(),
-      SearchScreen(),
-      Container(
-        child: Center(
-          child: Text("Bag"),
-        ),
-      ),
-      Container(
-        child: Center(
-          child: Text("User"),
-        ),
+      const FeedScreen(),
+      const SearchScreen(),
+      const CartScreen(),
+      const Center(
+        child: Text("User"),
       ),
     ];
   }
@@ -50,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
         height: 70,
         margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
         decoration: BoxDecoration(
-          color: Color(0xff121a1c),
+          color: const Color(0xff121a1c),
           borderRadius: BorderRadius.circular(50),
         ),
         child: Row(

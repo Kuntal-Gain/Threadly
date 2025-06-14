@@ -1,7 +1,7 @@
 import 'dart:async';
 
-import 'package:clozet/screens/feed_screen.dart';
 import 'package:clozet/screens/home_screen.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/constants/textstyle.dart';
@@ -102,14 +102,17 @@ class _SplashScreenState extends State<SplashScreen> {
                           onHorizontalDragUpdate: (details) {
                             setState(() {
                               dragOffsetX += details.delta.dx;
-                              if (dragOffsetX < 0)
+                              if (dragOffsetX < 0) {
                                 dragOffsetX = 0; // Prevent dragging left
+                              }
                             });
                           },
                           onHorizontalDragEnd: (details) {
                             if (dragOffsetX > dragThreshold) {
                               // Trigger your action here (like navigation)
-                              print("🎉 Swipe successful!");
+                              if (kDebugMode) {
+                                print("🎉 Swipe successful!");
+                              }
 
                               Navigator.of(context).push(
                                 MaterialPageRoute(
