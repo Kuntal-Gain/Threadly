@@ -1,5 +1,6 @@
 import 'package:clozet/screens/cart_screen.dart';
 import 'package:clozet/screens/feed_screen.dart';
+import 'package:clozet/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/widgets/nav_icons.dart';
@@ -30,9 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
       const FeedScreen(),
       const SearchScreen(),
       const CartScreen(),
-      const Center(
-        child: Text("User"),
-      ),
+      const ProfileScreen(),
     ];
   }
 

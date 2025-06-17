@@ -13,6 +13,13 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   List<int> qtys = [0, 0, 0];
+
+  void clearItem(int idx) {
+    setState(() {
+      qtys.removeAt(idx);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +42,7 @@ class _CartScreenState extends State<CartScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: ListView.builder(
-                itemCount: 3,
+                itemCount: qtys.length,
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (ctx, idx) {
@@ -78,7 +85,7 @@ class _CartScreenState extends State<CartScreen> {
                                     ),
                                     GestureDetector(
                                       onTap: () {
-                                        // clear the [cart]
+                                        clearItem(idx);
                                       },
                                       child: Image.asset(
                                         "assets/icons/close.png",

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "247073646709",
+    "project_id": "clozet-ac7e7",
+    "storage_bucket": "clozet-ac7e7.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:247073646709:android:28f508b98135bf84f9703c",
+        "android_client_info": {
+          "package_name": "com.example.clozet"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCnhWtg1Nw06nBVQlYhcilJ5MZ8R1aP9s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
