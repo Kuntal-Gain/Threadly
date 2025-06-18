@@ -1,4 +1,4 @@
-import 'package:clozet/utils/constants/textstyle.dart';
+import 'package:clozet/views/utils/constants/textstyle.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 

@@ -1,6 +1,6 @@
-import 'package:clozet/screens/cart_screen.dart';
-import 'package:clozet/screens/feed_screen.dart';
-import 'package:clozet/screens/profile_screen.dart';
+import 'package:clozet/views/screens/cart_screen.dart';
+import 'package:clozet/views/screens/feed_screen.dart';
+import 'package:clozet/views/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/widgets/nav_icons.dart';

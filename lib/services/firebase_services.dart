@@ -19,4 +19,11 @@ class FirebaseServices {
   Future<void> deleteProduct(ProductModel product) async {
     await _firestore.collection('products').doc(product.productId).delete();
   }
+
+  Future<List<ProductModel>> fetchProducts() async {
+    final productsSnapshot = await _firestore.collection('products').get();
+    return productsSnapshot.docs
+        .map((doc) => ProductModel.fromMap(doc.data()))
+        .toList();
+  }
 }

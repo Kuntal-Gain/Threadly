@@ -1,4 +1,4 @@
-import 'package:clozet/utils/constants/textstyle.dart';
+import 'package:clozet/views/utils/constants/textstyle.dart';
 import 'package:flutter/material.dart';
 
 Widget priceWidget({required double price, required double discount}) {

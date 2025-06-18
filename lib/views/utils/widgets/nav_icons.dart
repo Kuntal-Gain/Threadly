@@ -1,4 +1,4 @@
-import 'package:clozet/utils/constants/color.dart';
+import 'package:clozet/views/utils/constants/color.dart';
 import 'package:flutter/material.dart';
 
 Widget navIcon({

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:clozet/screens/home_screen.dart';
+import 'package:clozet/views/screens/home_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 

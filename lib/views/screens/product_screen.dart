@@ -1,4 +1,4 @@
-import 'package:clozet/widgets/price_widget.dart';
+import 'package:clozet/views/widgets/price_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/constants/textstyle.dart';

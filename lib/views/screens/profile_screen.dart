@@ -1,5 +1,5 @@
 import 'package:avatar_glow/avatar_glow.dart';
-import 'package:clozet/utils/constants/sizes.dart';
+import 'package:clozet/views/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/constants/color.dart';
