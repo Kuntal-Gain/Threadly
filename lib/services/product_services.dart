@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/products.dart';
 
-class FirebaseServices {
+class ProductServices {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   Future<void> addProduct(ProductModel product) async {

@@ -3,8 +3,11 @@ import 'dart:async';
 import 'package:clozet/views/screens/home_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
+import '../../controllers/user_controller.dart';
 import '../utils/constants/textstyle.dart';
+import '../utils/widgets/redirection.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -116,7 +119,10 @@ class _SplashScreenState extends State<SplashScreen> {
 
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (context) => const HomeScreen(),
+                                  builder: (context) => const Redirection(
+                                    loggedInRoute: '/home',
+                                    loggedOutRoute: '/signup',
+                                  ),
                                 ),
                               );
                             }
