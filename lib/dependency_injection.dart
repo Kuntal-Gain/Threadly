@@ -4,7 +4,7 @@ import 'package:clozet/services/product_services.dart';
 import 'package:clozet/services/user_services.dart';
 import 'package:get/get.dart';
 
-class ProductBinding extends Bindings {
+class AppBinding extends Bindings {
   @override
   void dependencies() {
     // users

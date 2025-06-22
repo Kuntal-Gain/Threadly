@@ -2,11 +2,13 @@ import 'package:clozet/views/utils/constants/textstyle.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../models/users.dart';
 import '../widgets/ad_widget.dart';
 import 'product_screen.dart';
 
 class FeedScreen extends StatefulWidget {
-  const FeedScreen({super.key});
+  final UserModel? user;
+  const FeedScreen({super.key, this.user});
 
   @override
   State<FeedScreen> createState() => _FeedScreenState();
@@ -55,7 +57,7 @@ class _FeedScreenState extends State<FeedScreen> {
                         Padding(
                           padding: const EdgeInsets.only(left: 10),
                           child: Text(
-                            'Guest',
+                            widget.user?.name ?? "Guest",
                             style: TextStyleConst().headingStyle(
                               color: Colors.black,
                               size: 35,

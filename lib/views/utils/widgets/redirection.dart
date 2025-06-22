@@ -16,8 +16,7 @@ class Redirection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future.microtask(() async {
-      final userService = Get.find<UserServices>();
-      final isLoggedIn = await userService.isOnline();
+      final isLoggedIn = await Get.find<UserServices>().isOnline();
 
       if (isLoggedIn) {
         Get.toNamed(loggedInRoute);

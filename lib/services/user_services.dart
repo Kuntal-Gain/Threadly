@@ -1,108 +1,124 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:get/get.dart';
+import 'package:appwrite/appwrite.dart';
+import 'package:appwrite/models.dart' as models;
 
 import '../models/users.dart';
+import '../views/utils/constants/appwrite.dart';
 
 class UserServices {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final Client _client = Client()
+    ..setEndpoint(APPWRITE_ENDPOINT) // or your local server
+    ..setProject(APPWRITE_PROJECT_ID); // <- Replace with actual project ID
 
-  // register
-  Future<void> registerUser(UserModel user, String password) async {
+  late final Account _account = Account(_client);
+  late final Databases _db = Databases(_client);
+
+  // 🔐 Register
+  Future<models.User> register({
+    required String email,
+    required String password,
+    required String name,
+  }) async {
+    return await _account.create(
+      userId: ID.unique(),
+      email: email,
+      password: password,
+      name: name,
+    );
+  }
+
+  // 🔐 Login
+  Future<models.Session> login({
+    required String email,
+    required String password,
+  }) async {
+    return await _account.createEmailPasswordSession(
+      email: email,
+      password: password,
+    );
+  }
+
+  // 🆔 Get UID
+  Future<String?> getCurrentUid() async {
     try {
-      await _auth
-          .createUserWithEmailAndPassword(
-        email: user.email,
-        password: password,
-      )
-          .then((val) async {
-        if (val.user?.uid != null) {
-          await createUser(user);
-          Get.snackbar('Success', 'User created successfully');
-        } else {
-          throw Exception('User not created');
-        }
-      });
+      final user = await _account.get();
+      return user.$id;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  // 📥 Create User Document
+  Future<void> createUser(UserModel user) async {
+    try {
+      await _db.createDocument(
+        databaseId: databaseId,
+        collectionId: usersCollectionId,
+        documentId: user.uid, // use same ID as account.$id
+        data: user.toMap(),
+        permissions: [
+          Permission.read(Role.user(user.uid)),
+          Permission.write(Role.user(user.uid)),
+        ],
+      );
+
+      print("✅ User document created for ${user.email}");
+    } on AppwriteException catch (e) {
+      print("❌ Appwrite Error: ${e.message}");
+      rethrow;
     } catch (e) {
-      Get.snackbar('Error', 'User not created');
+      print("❌ Unknown Error: $e");
       rethrow;
     }
   }
-  // login
 
-  Future<void> loginUser(String email, String password) async {
+  // 📤 Fetch User Document
+  Future<UserModel?> fetchUser() async {
     try {
-      await _auth.signInWithEmailAndPassword(
-        email: email,
-        password: password,
+      final uid = await getCurrentUid();
+      if (uid == null) return null;
+
+      final doc = await _db.getDocument(
+        databaseId: databaseId,
+        collectionId: usersCollection,
+        documentId: uid,
+      );
+
+      return UserModel.fromMap(doc.data);
+    } catch (e) {
+      print('❌ Failed to fetch user: $e');
+      return null;
+    }
+  }
+
+  // ♻️ Update User Document
+  Future<void> updateUser(UserModel user) async {
+    try {
+      await _db.updateDocument(
+        databaseId: databaseId,
+        collectionId: usersCollection,
+        documentId: user.uid,
+        data: user.toMap(),
       );
     } catch (e) {
-      Get.snackbar('Error', 'User not logged in');
+      print('❌ Failed to update user: $e');
       rethrow;
     }
   }
 
-  // create user
-
-  Future<void> createUser(UserModel user) async {
-    final userCollection = _firestore.collection('users');
-
-    final uid = await getCurrentUid();
-
+  // 👀 Is User Online (logged in)
+  Future<bool> isOnline() async {
     try {
-      userCollection.doc(uid).get().then((value) {
-        final newUser = UserModel(
-          uid: uid,
-          name: user.name,
-          email: user.email,
-          profileImage: user.profileImage,
-          address: user.address,
-          wishlist: user.wishlist,
-          cartID: user.cartID,
-          orders: user.orders,
-          createdAt: user.createdAt,
-        ).toMap();
-
-        if (value.exists) {
-          userCollection.doc(uid).update(newUser);
-        } else {
-          userCollection.doc(uid).set(newUser);
-        }
-      });
-    } catch (e) {
-      Get.snackbar('Error', 'User not created');
-      rethrow;
+      await _account.get();
+      return true;
+    } catch (_) {
+      return false;
     }
   }
 
-  // get uid
-  Future<String> getCurrentUid() async => _auth.currentUser!.uid;
-
-  // fetch user
-
-  Future<UserModel> fetchUser() async {
-    final uid = await getCurrentUid();
-    final userCollection = _firestore.collection('users');
-    final userSnapshot = await userCollection.doc(uid).get();
-    return UserModel.fromMap(userSnapshot.data()!);
-  }
-
-  // update user (detail)
-
-  Future<void> updateUser(UserModel user) async {
-    final userCollection = _firestore.collection('users');
-    final uid = await getCurrentUid();
+  // 🚪 Logout
+  Future<void> logout() async {
     try {
-      userCollection.doc(uid).update(user.toMap());
-    } catch (e) {
-      Get.snackbar('Error', 'User not updated');
-      rethrow;
-    }
+      await _account.deleteSession(sessionId: 'current');
+    } catch (_) {}
   }
-
-  // isOnline
-
-  Future<bool> isOnline() async =>
-      FirebaseAuth.instance.currentUser?.uid != null;
 }

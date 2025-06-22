@@ -9,6 +9,6 @@ class AppRoutes {
     GetPage(name: '/', page: () => const SplashScreen()),
     // GetPage(name: '/login', page: () => LoginScreen()),
     GetPage(name: '/signup', page: () => SignupScreen()),
-    GetPage(name: '/home', page: () => HomeScreen()),
+    GetPage(name: '/home', page: () => const HomeScreen()),
   ];
 }

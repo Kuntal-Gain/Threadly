@@ -14,7 +14,6 @@ class SignupScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final size = MediaQuery.of(context).size;
 
     return Scaffold(
       backgroundColor: Colors.grey[100],
@@ -87,7 +86,7 @@ class SignupScreen extends StatelessWidget {
                         icon: const Icon(Icons.arrow_forward),
                         label: const Text(
                           "Sign Up",
-                          style: TextStyle(fontSize: 16),
+                          style: TextStyle(fontSize: 16, color: Colors.white),
                         ),
                       ),
                     );
@@ -96,7 +95,7 @@ class SignupScreen extends StatelessWidget {
             Center(
               child: TextButton(
                 onPressed: () {
-                  // Navigate to login if needed
+                  Get.toNamed('/login');
                 },
                 child: const Text.rich(
                   TextSpan(

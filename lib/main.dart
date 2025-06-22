@@ -1,39 +1,28 @@
+import 'package:appwrite/appwrite.dart';
+import 'package:clozet/dependency_injection.dart';
 import 'package:clozet/views/screens/splash_screen.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 
-import 'dependency_injection.dart';
-import 'firebase_options.dart';
 import 'views/routes/app_routes.dart';
+import 'views/utils/constants/appwrite.dart';
+import 'views/utils/widgets/redirection.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Client client = Client()
+      .setEndpoint("https://nyc.cloud.appwrite.io/v1")
+      .setProject(APPWRITE_PROJECT_ID);
+  Account account = Account(client);
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  if (kDebugMode) {
+    print(account);
+  }
 
   runApp(GetMaterialApp(
-    initialBinding: ProductBinding(), // 👈 This line injects DI
-    home: const SplashScreen(),
+    initialBinding: AppBinding(), // 👈 This line injects DI
     getPages: AppRoutes.routes,
     initialRoute: '/',
   ));
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Clozet',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const SplashScreen(),
-    );
-  }
 }

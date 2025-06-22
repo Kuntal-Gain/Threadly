@@ -18,11 +18,6 @@ class ProductController extends GetxController {
   }
 
   Future<void> fetchProducts() async {
-    try {
-      final data = await productServices.fetchProducts();
-      products.assignAll(data);
-    } catch (e) {
-      Get.snackbar('Error', 'Failed to fetch products');
-    }
+    // code here
   }
 }

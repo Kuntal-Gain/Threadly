@@ -1,107 +1,123 @@
 import 'package:get/get.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-
 import '../models/users.dart';
 import '../services/user_services.dart';
-import '../views/utils/constants/generators.dart';
 
 class UserController extends GetxController {
   final UserServices userServices;
 
   UserController({required this.userServices});
 
+  // Observables
   Rx<UserModel?> currentUser = Rx<UserModel?>(null);
   RxBool isLoading = false.obs;
-
-  /// 🔐 Register user
   Future<void> registerUser({
-    required String name,
     required String email,
     required String password,
+    required String name,
   }) async {
-    isLoading.value = true;
-
     try {
-      // Create Firebase user
-      final result = await FirebaseAuth.instance
-          .createUserWithEmailAndPassword(email: email, password: password);
+      isLoading.value = true;
 
-      final uid = result.user!.uid;
+      // Step 1: Register user
+      final user = await userServices.register(
+        email: email,
+        password: password,
+        name: name,
+      );
 
-      // Build user model
-      final user = UserModel(
-        uid: uid,
+      await Future.delayed(const Duration(milliseconds: 300)); // 🍃 gentle
+
+      // 👇 Step 2: Login right after registration
+      await userServices.login(email: email, password: password);
+
+      await Future.delayed(const Duration(milliseconds: 300)); // 🍃 gentle
+
+      // Step 3: Create user model
+      final userModel = UserModel(
+        uid: user.$id,
         name: name,
         email: email,
-        profileImage: '',
+        profileImage: '', // default or upload later
         address: '',
         wishlist: [],
-        cartID: generateCartId(),
+        cartID: '',
         orders: [],
         createdAt: DateTime.now(),
       );
 
-      // Save in Firestore
-      await userServices.createUser(user);
+      // Step 4: Save to Appwrite DB with proper permissions
+      await userServices.createUser(userModel);
 
-      // Update local state
-      currentUser.value = user;
-
-      Get.snackbar("Success", "Registered successfully 🎉");
+      // Step 5: Store locally
+      currentUser.value = userModel;
     } catch (e) {
-      Get.snackbar("Error", e.toString());
+      print('❌ Registration Error: $e');
+      rethrow;
     } finally {
       isLoading.value = false;
     }
   }
 
-  /// 🔑 Login user
+  // 🔐 Login
   Future<void> loginUser({
     required String email,
     required String password,
   }) async {
-    isLoading.value = true;
-
     try {
-      await userServices.loginUser(email, password);
+      isLoading.value = true;
+      await userServices.login(email: email, password: password);
       await fetchCurrentUser();
-
-      Get.snackbar("Success", "Logged in successfully 🚀");
     } catch (e) {
-      Get.snackbar("Error", e.toString());
+      print('❌ Login Error: $e');
+      rethrow;
     } finally {
       isLoading.value = false;
     }
   }
 
-  /// 📥 Fetch user from Firestore
-  Future<void> fetchCurrentUser() async {
+  // 🧠 Fetch Current User
+  Future<UserModel?> fetchCurrentUser() async {
     try {
-      final userData = await userServices.fetchUser();
-      currentUser.value = userData;
+      isLoading.value = true;
+      final user = await userServices.fetchUser();
+      currentUser.value = user;
+      return user;
     } catch (e) {
-      Get.snackbar("Error", "Failed to load user data");
+      print('❌ Fetch User Error: $e');
+      return null;
+    } finally {
+      isLoading.value = false;
     }
   }
 
-  /// 📝 Update profile
-  Future<void> updateProfile(UserModel updatedUser) async {
+  // 🛠️ Update User
+  Future<void> updateUser(UserModel updatedUser) async {
     try {
       await userServices.updateUser(updatedUser);
       currentUser.value = updatedUser;
-      Get.snackbar("Updated", "Profile updated 💾");
     } catch (e) {
-      Get.snackbar("Error", "Update failed ❌");
+      print('❌ Update User Error: $e');
+      rethrow;
     }
   }
 
-  /// 📝 Check if user is online
-  Future<bool> isOnline() async => userServices.isOnline();
+  // 🔍 Check if Logged In
+  Future<bool> isOnline() async {
+    return await userServices.isOnline();
+  }
 
-  // /// 🚪 Logout
-  // Future<void> logout() async {
-  //   await _userServices.signOut();
-  //   currentUser.value = null;
-  //   Get.offAllNamed('/login'); // optional routing
-  // }
+  // 🔌 Get UID
+  Future<String?> getCurrentUid() async {
+    return await userServices.getCurrentUid();
+  }
+
+  // 🚪 Logout
+  Future<void> logoutUser() async {
+    try {
+      await userServices.logout();
+      currentUser.value = null;
+    } catch (e) {
+      print('❌ Logout Error: $e');
+    }
+  }
 }

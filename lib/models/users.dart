@@ -1,7 +1,5 @@
-/*{uid , name , email , profileImage , address , wishlist[], cartID , orders[] , createAt}*/
-
 class UserModel {
-  final String uid;
+  final String uid; // This will map to Appwrite's $id
   final String name;
   final String email;
   final String profileImage;
@@ -23,23 +21,25 @@ class UserModel {
     required this.createdAt,
   });
 
+  /// Convert from Appwrite's Map (aka Document `data`)
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-      uid: map['uid'],
+      uid: map['\$id'], // Appwrite uses $id for document ID
       name: map['name'],
       email: map['email'],
       profileImage: map['profileImage'],
       address: map['address'],
-      wishlist: map['wishlist'],
+      wishlist: List<String>.from(map['wishlist'] ?? []),
       cartID: map['cartID'],
-      orders: map['orders'],
-      createdAt: map['createdAt'],
+      orders: List<String>.from(map['orders'] ?? []),
+      createdAt: DateTime.parse(map['\$createdAt']),
     );
   }
 
+  /// Convert to Appwrite-friendly map
   Map<String, dynamic> toMap() {
     return {
-      'uid': uid,
+      // 'uid' is NOT required because Appwrite sets $id automatically
       'name': name,
       'email': email,
       'profileImage': profileImage,
@@ -47,7 +47,7 @@ class UserModel {
       'wishlist': wishlist,
       'cartID': cartID,
       'orders': orders,
-      'createdAt': createdAt,
+      // 'createdAt' is NOT stored by us, Appwrite sets $createdAt automatically
     };
   }
 }

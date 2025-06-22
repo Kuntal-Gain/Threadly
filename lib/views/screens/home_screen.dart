@@ -2,7 +2,9 @@ import 'package:clozet/views/screens/cart_screen.dart';
 import 'package:clozet/views/screens/feed_screen.dart';
 import 'package:clozet/views/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
+import '../../controllers/user_controller.dart';
 import '../utils/widgets/nav_icons.dart';
 import 'search_screen.dart';
 
@@ -15,6 +17,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<Widget> _screens = [];
+  final UserController userController = Get.find<UserController>();
 
   int _currentIdx = 0;
 
@@ -27,51 +30,61 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _screens = [
-      const FeedScreen(),
-      const SearchScreen(),
-      const CartScreen(),
-      const ProfileScreen(),
-    ];
+    // userController.fetchCurrentUser();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: _screens[_currentIdx],
-      bottomNavigationBar: Container(
-        height: 70,
-        margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-        decoration: BoxDecoration(
-          color: const Color(0xff121a1c),
-          borderRadius: BorderRadius.circular(50),
+    return Obx(() {
+      final user = userController.currentUser.value;
+
+      if (user == null) {
+        return const Center(child: CircularProgressIndicator());
+      }
+
+      _screens = [
+        FeedScreen(user: user),
+        const SearchScreen(),
+        const CartScreen(),
+        ProfileScreen(user: user),
+      ];
+
+      return Scaffold(
+        backgroundColor: Colors.white,
+        body: _screens[_currentIdx],
+        bottomNavigationBar: Container(
+          height: 70,
+          margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          decoration: BoxDecoration(
+            color: const Color(0xff121a1c),
+            borderRadius: BorderRadius.circular(50),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              navIcon(
+                icon: "assets/icons/home.png",
+                isSelected: _currentIdx == 0,
+                onTap: () => _onTap(0),
+              ),
+              navIcon(
+                icon: "assets/icons/search.png",
+                isSelected: _currentIdx == 1,
+                onTap: () => _onTap(1),
+              ),
+              navIcon(
+                icon: "assets/icons/market.png",
+                isSelected: _currentIdx == 2,
+                onTap: () => _onTap(2),
+              ),
+              navIcon(
+                  icon: "assets/icons/user.png",
+                  isSelected: _currentIdx == 3,
+                  onTap: () => _onTap(3)),
+            ],
+          ),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            navIcon(
-              icon: "assets/icons/home.png",
-              isSelected: _currentIdx == 0,
-              onTap: () => _onTap(0),
-            ),
-            navIcon(
-              icon: "assets/icons/search.png",
-              isSelected: _currentIdx == 1,
-              onTap: () => _onTap(1),
-            ),
-            navIcon(
-              icon: "assets/icons/market.png",
-              isSelected: _currentIdx == 2,
-              onTap: () => _onTap(2),
-            ),
-            navIcon(
-                icon: "assets/icons/user.png",
-                isSelected: _currentIdx == 3,
-                onTap: () => _onTap(3)),
-          ],
-        ),
-      ),
-    );
+      );
+    });
   }
 }

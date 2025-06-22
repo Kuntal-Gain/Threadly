@@ -2,11 +2,13 @@ import 'package:avatar_glow/avatar_glow.dart';
 import 'package:clozet/views/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
 
+import '../../models/users.dart';
 import '../utils/constants/color.dart';
 import '../utils/constants/textstyle.dart';
 
 class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+  final UserModel? user;
+  const ProfileScreen({super.key, this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -21,15 +23,18 @@ class ProfileScreen extends StatelessWidget {
               glowColor: Colors.red,
               duration: const Duration(milliseconds: 2000),
               repeat: true,
-              child: const CircleAvatar(
+              child: CircleAvatar(
                 radius: 60,
-                backgroundImage: AssetImage('assets/ads-1.png'),
+                backgroundImage:
+                    user?.profileImage != null && user!.profileImage.isNotEmpty
+                        ? NetworkImage(user!.profileImage)
+                        : const AssetImage('assets/ads-1.png'),
               ),
             ),
           ),
           sizeVar(20),
           Text(
-            'Guest',
+            user?.name ?? 'Guest',
             style: TextStyleConst().headingStyle(
               color: Colors.black,
               size: 35,

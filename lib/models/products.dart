@@ -8,8 +8,8 @@ class ProductModel {
   final String productId;
   final String title;
   final String description;
-  final String price;
-  int discountValue;
+  final num price;
+  num discountValue;
   final List<String> snapshots;
   final List<double> ratings;
   final List<String> reviews;
