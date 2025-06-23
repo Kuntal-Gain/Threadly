@@ -1,7 +1,9 @@
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:clozet/views/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
+import '../../controllers/user_controller.dart';
 import '../../models/users.dart';
 import '../utils/constants/color.dart';
 import '../utils/constants/textstyle.dart';
@@ -55,42 +57,55 @@ class ProfileScreen extends StatelessWidget {
           sizeVar(20),
           profileCard(title: 'My Settings', icon: Icons.settings),
           sizeVar(20),
-          profileCard(title: 'My Logout', icon: Icons.logout),
+          profileCard(
+              title: 'My Logout',
+              icon: Icons.logout,
+              onTap: () {
+                Get.find<UserController>().logoutUser();
+              }),
         ],
       ),
     );
   }
 }
 
-Widget profileCard({required String title, required IconData icon}) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Row(
-          children: [
-            Icon(
-              icon,
-              color: AppColor.gray,
-              size: 35,
-            ),
-            sizeHor(20),
-            Text(
-              title,
-              style: TextStyleConst().headingStyle(
-                color: Colors.black,
-                size: 20,
+Widget profileCard(
+    {required String title, required IconData icon, Function? onTap}) {
+  return GestureDetector(
+    onTap: () {
+      if (onTap != null) {
+        onTap();
+      }
+    },
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Icon(
+                icon,
+                color: AppColor.gray,
+                size: 35,
               ),
-            ),
-          ],
-        ),
-        const Icon(
-          Icons.arrow_forward_ios,
-          color: Colors.black,
-          size: 20,
-        ),
-      ],
+              sizeHor(20),
+              Text(
+                title,
+                style: TextStyleConst().headingStyle(
+                  color: Colors.black,
+                  size: 20,
+                ),
+              ),
+            ],
+          ),
+          const Icon(
+            Icons.arrow_forward_ios,
+            color: Colors.black,
+            size: 20,
+          ),
+        ],
+      ),
     ),
   );
 }

@@ -1,6 +1,7 @@
 import 'package:clozet/views/screens/cart_screen.dart';
 import 'package:clozet/views/screens/feed_screen.dart';
 import 'package:clozet/views/screens/profile_screen.dart';
+import 'package:clozet/views/utils/widgets/splash_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -30,7 +31,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    // userController.fetchCurrentUser();
+    userController.fetchCurrentUser();
+    print("✅ HomeScreen initialized");
   }
 
   @override
@@ -39,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
       final user = userController.currentUser.value;
 
       if (user == null) {
-        return const Center(child: CircularProgressIndicator());
+        return const SplashLogoScreen();
       }
 
       _screens = [

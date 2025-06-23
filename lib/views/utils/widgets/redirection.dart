@@ -1,3 +1,4 @@
+import 'package:clozet/views/utils/widgets/splash_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,6 +19,8 @@ class Redirection extends StatelessWidget {
     Future.microtask(() async {
       final isLoggedIn = await Get.find<UserServices>().isOnline();
 
+      print(isLoggedIn);
+
       if (isLoggedIn) {
         Get.toNamed(loggedInRoute);
       } else {
@@ -25,8 +28,6 @@ class Redirection extends StatelessWidget {
       }
     });
 
-    return const Scaffold(
-      body: Center(child: CircularProgressIndicator()), // Optional loading UI
-    );
+    return SplashLogoScreen();
   }
 }

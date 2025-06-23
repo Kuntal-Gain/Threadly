@@ -79,7 +79,7 @@ class UserServices {
 
       final doc = await _db.getDocument(
         databaseId: databaseId,
-        collectionId: usersCollection,
+        collectionId: usersCollectionId,
         documentId: uid,
       );
 

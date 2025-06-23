@@ -11,6 +11,7 @@ import 'views/utils/widgets/redirection.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   Client client = Client()
       .setEndpoint("https://nyc.cloud.appwrite.io/v1")
       .setProject(APPWRITE_PROJECT_ID);
@@ -21,8 +22,9 @@ void main() async {
   }
 
   runApp(GetMaterialApp(
-    initialBinding: AppBinding(), // 👈 This line injects DI
+    initialBinding: AppBinding(),
     getPages: AppRoutes.routes,
     initialRoute: '/',
+    debugShowCheckedModeBanner: false,
   ));
 }
