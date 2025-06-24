@@ -1,5 +1,6 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:clozet/dependency_injection.dart';
+import 'package:clozet/views/screens/auth/auth_screen.dart';
 import 'package:clozet/views/screens/splash_screen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
