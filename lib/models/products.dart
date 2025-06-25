@@ -4,6 +4,8 @@
 
 */
 
+import 'package:appwrite/models.dart';
+
 class ProductModel {
   final String productId;
   final String title;
@@ -33,19 +35,21 @@ class ProductModel {
     this.discountValue = 0,
   });
 
-  factory ProductModel.fromMap(Map<String, dynamic> map) {
+  factory ProductModel.fromDocument(Document doc) {
+    final map = doc.data;
+
     return ProductModel(
-      productId: map['productId'],
+      productId: doc.$id, // 👈 grabs the primary key
       title: map['title'],
       description: map['description'],
       price: map['price'],
-      snapshots: map['snapshots'],
-      ratings: map['ratings'],
-      reviews: map['reviews'],
+      snapshots: List<String>.from(map['snapshots']),
+      ratings: List<double>.from(map['ratings']),
+      reviews: List<String>.from(map['reviews']),
       soldUnits: map['soldUnits'],
       category: map['category'],
-      sizes: map['sizes'],
-      colors: map['colors'],
+      sizes: List<String>.from(map['sizes']),
+      colors: List<String>.from(map['colors']),
       discountValue: map['discountValue'] ?? 0,
     );
   }

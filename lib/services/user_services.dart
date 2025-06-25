@@ -1,16 +1,18 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart' as models;
+import 'package:appwrite/models.dart';
 
 import '../models/users.dart';
 import '../views/utils/constants/appwrite.dart';
 
 class UserServices {
   final Client _client = Client()
-    ..setEndpoint(APPWRITE_ENDPOINT) // or your local server
-    ..setProject(APPWRITE_PROJECT_ID); // <- Replace with actual project ID
+    ..setEndpoint(APPWRITE_ENDPOINT)
+    ..setProject(APPWRITE_PROJECT_ID);
 
   late final Account _account = Account(_client);
   late final Databases _db = Databases(_client);
+  late final Storage _storage = Storage(_client);
 
   // 🔐 Register
   Future<models.User> register({
@@ -120,5 +122,29 @@ class UserServices {
     try {
       await _account.deleteSession(sessionId: 'current');
     } catch (_) {}
+  }
+
+  // upload image
+  Future<String> uploadImage({required String path}) async {
+    try {
+      final result = await _storage.createFile(
+        bucketId: storageBucketId,
+        fileId: ID.unique(),
+        file: InputFile.fromPath(path: path),
+      );
+
+      // This generates a previewable image URL
+      final url = _storage
+          .getFilePreview(
+            bucketId: storageBucketId,
+            fileId: result.$id,
+          )
+          .toString();
+
+      return url;
+    } catch (e) {
+      print('❌ Failed to upload image: $e');
+      rethrow;
+    }
   }
 }

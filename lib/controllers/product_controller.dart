@@ -1,23 +1,48 @@
-import 'package:clozet/models/products.dart';
-
+import 'package:flutter/foundation.dart'; // debugPrint
 import 'package:get/get.dart';
-
-import '../services/product_services.dart';
+import 'package:clozet/models/products.dart';
+import 'package:clozet/services/product_services.dart';
 
 class ProductController extends GetxController {
-  final ProductServices productServices;
-
   ProductController({required this.productServices});
 
+  final ProductServices productServices;
+
+  /// Complete catalogue
   final RxList<ProductModel> products = <ProductModel>[].obs;
 
+  /// Currently viewed / selected product
+  final Rxn<ProductModel> product = Rxn<ProductModel>();
+
+  /// Global loading flag
+  final RxBool isLoading = false.obs;
+
+  // ────────────────────────── lifecycle ──────────────────────────
   @override
   void onInit() {
     super.onInit();
-    fetchProducts();
+    fetchProducts(); // pre-load catalogue
   }
 
-  Future<void> fetchProducts() async {
-    // code here
+  // ────────────────────────── public API ─────────────────────────
+  Future<void> fetchProducts() async => _wrapWithLoader(() async {
+        products.value = await productServices.fetchProducts();
+      });
+
+  Future<void> fetchProductById(String id) async => _wrapWithLoader(() async {
+        product.value = await productServices.fetchProductById(id);
+      });
+
+  // ────────────────────────── helpers ────────────────────────────
+  Future<void> _wrapWithLoader(Future<void> Function() task) async {
+    try {
+      isLoading.value = true;
+      await task();
+    } catch (e, s) {
+      debugPrint('❌ ProductController error: $e\n$s');
+      // TODO: forward to Crashlytics / Sentry if you use one
+    } finally {
+      isLoading.value = false;
+    }
   }
 }
