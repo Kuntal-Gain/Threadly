@@ -4,6 +4,9 @@ import 'package:clozet/services/product_services.dart';
 import 'package:clozet/services/user_services.dart';
 import 'package:get/get.dart';
 
+import 'controllers/search_controller.dart';
+import 'services/search_services.dart';
+
 class AppBinding extends Bindings {
   @override
   void dependencies() {
@@ -14,5 +17,7 @@ class AppBinding extends Bindings {
     // products
     Get.lazyPut(() => ProductServices());
     Get.lazyPut(() => ProductController(productServices: Get.find()));
+
+
   }
 }

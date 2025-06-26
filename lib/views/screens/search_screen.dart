@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:clozet/views/utils/constants/color.dart';
+import 'package:get/get.dart';
+
+import '../../controllers/product_controller.dart';
+import '../../models/products.dart';
+import '../utils/constants/color.dart';
 import '../utils/constants/textstyle.dart';
+import '../widgets/ad_widget.dart';
 import 'product_screen.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -11,24 +16,49 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  final _controller = TextEditingController();
+  final ProductController productController = Get.find<ProductController>();
+  final TextEditingController textCtrl = TextEditingController();
 
-  String currentText = '';
+  List<ProductModel> searchList = [];
+
+  @override
+  void initState() {
+    super.initState();
+    productController.fetchProducts();
+    textCtrl.addListener(_handleSearch);
+  }
+
+  void _handleSearch() {
+    final query = textCtrl.text.toLowerCase();
+    setState(() {
+      searchList = productController.products
+          .where((product) => product.title.toLowerCase().contains(query))
+          .toList();
+    });
+  }
 
   @override
   void dispose() {
-    _controller.dispose();
+    textCtrl.removeListener(_handleSearch);
+    textCtrl.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColor.white,
-      body: SafeArea(
-        child: SingleChildScrollView(
+    return Obx(() {
+      if (productController.isLoading.value) {
+        return const Scaffold(
+          body: Center(child: CircularProgressIndicator()),
+        );
+      }
+
+      return Scaffold(
+        backgroundColor: AppColor.white,
+        body: SafeArea(
           child: Column(
             children: [
+              // 🔍 Search Bar
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 height: 50,
@@ -38,165 +68,112 @@ class _SearchScreenState extends State<SearchScreen> {
                   color: AppColor.white,
                   borderRadius: BorderRadius.circular(50),
                   boxShadow: const [
-                    BoxShadow(
-                      color: AppColor.gray,
-                      blurRadius: 2,
-                    ),
+                    BoxShadow(color: AppColor.gray, blurRadius: 2),
                   ],
                 ),
                 child: Row(
                   children: [
-                    Image.asset(
-                      'assets/icons/search.png',
-                      width: 25,
-                      height: 25,
-                    ),
+                    Image.asset('assets/icons/search.png',
+                        width: 25, height: 25),
                     const SizedBox(width: 10),
                     Expanded(
                       child: TextField(
-                        controller: _controller,
-                        onChanged: (value) {
-                          setState(() {
-                            currentText = value;
-                          });
-                        },
+                        controller: textCtrl,
                         decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: "Search for Stylish T-Shirt",
-                          hintStyle: TextStyleConst().regularStyle(
-                            color: AppColor.black,
-                            size: 18,
-                          ),
+                          hintStyle: TextStyleConst()
+                              .regularStyle(color: AppColor.black, size: 18),
                         ),
                       ),
                     ),
-                    AnimatedSwitcher(
-                      duration: const Duration(milliseconds: 250),
-                      transitionBuilder: (child, animation) {
-                        return FadeTransition(opacity: animation, child: child);
-                      },
-                      child: currentText.isNotEmpty
-                          ? Row(
-                              key: const ValueKey('show_close'),
-                              children: [
-                                const Padding(
-                                  padding: EdgeInsets.symmetric(vertical: 8.0),
-                                  child: VerticalDivider(
-                                    thickness: 1,
-                                    color: AppColor.gray,
-                                  ),
-                                ),
-                                const SizedBox(width: 10),
-                                GestureDetector(
-                                  onTap: () {
-                                    _controller.clear();
-                                    setState(() {
-                                      currentText = '';
-                                    });
-                                  },
-                                  child: Image.asset(
-                                    'assets/icons/close.png',
-                                    width: 25,
-                                    height: 25,
-                                  ),
-                                ),
-                              ],
-                            )
-                          : const SizedBox(
-                              key: ValueKey('hide_close'),
-                              width: 0,
-                            ),
-                    ),
+                    if (textCtrl.text.isNotEmpty)
+                      GestureDetector(
+                        onTap: () {
+                          textCtrl.clear();
+                          FocusScope.of(context).unfocus();
+                          setState(() => searchList.clear());
+                        },
+                        child: Image.asset('assets/icons/close.png',
+                            width: 25, height: 25),
+                      ),
                   ],
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                    child: Text(
-                      "120 Results Products",
-                      style: TextStyleConst().headingStyle(
-                        color: AppColor.black,
-                        size: 26,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 18.0),
-                    child: Image.asset(
-                      'assets/icons/settings-sliders.png',
-                      width: 32,
-                      height: 32,
-                    ),
-                  ),
-                ],
-              ),
+
+              // 🔢 Result Count + Filter
               Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: GridView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    childAspectRatio: 0.72,
-                  ),
-                  itemCount: 10,
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const ProductDetailsScreen(
-                              productID: 'productID',
-                            ),
-                          ),
-                        );
-                      },
-                      child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "${searchList.length} Results",
+                      style: TextStyleConst()
+                          .headingStyle(color: AppColor.black, size: 26),
+                    ),
+                    Image.asset('assets/icons/settings-sliders.png',
+                        width: 32, height: 32),
+                  ],
+                ),
+              ),
+
+              // 🔄 Results Grid
+              Expanded(
+                child: searchList.isEmpty
+                    ? const Center(child: Text("No products found 😢"))
+                    : Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
+                        child: GridView.builder(
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            childAspectRatio: 0.72,
                           ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(20),
-                                child: Image.network(
-                                  'https://crazymonk.in/cdn/shop/files/CMVersity_1_CM.jpg?v=1749447196&width=713',
-                                  width: 200,
-                                  height: 200,
-                                  fit: BoxFit.cover,
+                          itemCount: searchList.length,
+                          itemBuilder: (context, index) {
+                            final ProductModel product = searchList[index];
+                            return GestureDetector(
+                              onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (_) => ProductDetailsScreen(
+                                      productID: product.productId),
                                 ),
                               ),
-                              const SizedBox(height: 8),
-                              Text('Product Name',
-                                  style: TextStyleConst().headingStyle(
-                                    color: Colors.black,
-                                    size: 25,
-                                  )),
-                              Text('\$100',
-                                  style: TextStyleConst().headingStyle(
-                                    color: Colors.black,
-                                    size: 25,
-                                  )),
-                            ],
-                          ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(20),
+                                      child: Image.network(
+                                        product.snapshots.first,
+                                        width: 200,
+                                        height: 200,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 8),
+                                    Text(product.title,
+                                        style: TextStyleConst().headingStyle(
+                                            color: Colors.black, size: 24)),
+                                    Text('₹${product.price}',
+                                        style: TextStyleConst().headingStyle(
+                                            color: Colors.black, size: 22)),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
                         ),
                       ),
-                    );
-                  },
-                ),
               ),
             ],
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

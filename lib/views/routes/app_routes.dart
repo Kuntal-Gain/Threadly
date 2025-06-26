@@ -4,6 +4,7 @@ import '../screens/auth/auth_screen.dart';
 import '../screens/feed_screen.dart';
 import '../screens/home_screen.dart';
 import '../screens/product_screen.dart';
+import '../screens/search_screen.dart';
 import '../screens/splash_screen.dart';
 import '../utils/widgets/redirection.dart';
 import '../utils/widgets/splash_logo.dart';
@@ -30,5 +31,7 @@ class AppRoutes {
 
           return ProductDetailsScreen(productID: id);
         }),
+
+    GetPage(name: '/search', page: () => const SearchScreen()),
   ];
 }

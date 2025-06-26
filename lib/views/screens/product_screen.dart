@@ -163,39 +163,42 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   // ───────────────── color selector ─────────────────
 
   Widget _colorSelector(List<String> colors) {
-    return Row(
-      children: colors.map((hex) {
-        final idx = colors.indexOf(hex);
-        final colorInt = stringToColorInt(hex);
+    return Padding(
+      padding: const EdgeInsets.only(left: 20),
+      child: Row(
+        children: colors.map((hex) {
+          final idx = colors.indexOf(hex);
+          final colorInt = stringToColorInt(hex);
 
-        return GestureDetector(
-          onTap: () => setState(() => _selectedColor = idx),
-          child: Container(
-            height: 50,
-            width: 50,
-            padding: const EdgeInsets.all(5),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: idx == _selectedColor
-                  ? Border.all(color: Colors.deepPurple, width: 5)
-                  : Border.all(color: Colors.white, width: 5),
-            ),
+          return GestureDetector(
+            onTap: () => setState(() => _selectedColor = idx),
             child: Container(
+              height: 50,
+              width: 50,
+              padding: const EdgeInsets.all(5),
               decoration: BoxDecoration(
-                color: Color(colorInt),
                 shape: BoxShape.circle,
-                boxShadow: const [
-                  BoxShadow(
-                    color: Color(0xffc2c2c2),
-                    blurRadius: 3,
-                    spreadRadius: 1,
-                  ),
-                ],
+                border: idx == _selectedColor
+                    ? Border.all(color: Colors.deepPurple, width: 5)
+                    : Border.all(color: Colors.white, width: 5),
+              ),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Color(colorInt),
+                  shape: BoxShape.circle,
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color(0xffc2c2c2),
+                      blurRadius: 3,
+                      spreadRadius: 1,
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        );
-      }).toList(),
+          );
+        }).toList(),
+      ),
     );
   }
 
@@ -293,7 +296,26 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Stack(children: [_bigImage(p.snapshots, mq), _thumbs(p.snapshots)]),
+            Stack(children: [
+              _bigImage(p.snapshots, mq),
+              _thumbs(p.snapshots),
+              Positioned(
+                top: 30,
+                left: 30,
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: AppColor.primary,
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  child: IconButton(
+                      onPressed: () {
+                        Get.back();
+                      },
+                      icon: const Icon(Icons.arrow_back_ios_new,
+                          color: Colors.white)),
+                ),
+              ),
+            ]),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Text(p.title,
