@@ -1,4 +1,4 @@
-# clozet
+# Threadly
 
 A new Flutter project.
 
