@@ -9,7 +9,7 @@ Widget priceWidget({required double price, required double discount}) {
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 18.0),
         child: Text(
-          "\$${newPrice.toStringAsFixed(0)}",
+          "₹${newPrice.toStringAsFixed(0)}",
           style: TextStyleConst().headingStyle(
             color: Colors.black,
             size: 40,
@@ -17,7 +17,7 @@ Widget priceWidget({required double price, required double discount}) {
         ),
       ),
       Text(
-        "\$${price.toStringAsFixed(0)}",
+        "₹${price.toStringAsFixed(0)}",
         style: TextStyleConst().headingStyle(
           textStyle: const TextStyle(
             decoration: TextDecoration.lineThrough,

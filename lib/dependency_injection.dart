@@ -4,8 +4,8 @@ import 'package:clozet/services/product_services.dart';
 import 'package:clozet/services/user_services.dart';
 import 'package:get/get.dart';
 
-import 'controllers/search_controller.dart';
-import 'services/search_services.dart';
+import 'controllers/cart_controller.dart';
+import 'services/cart_service.dart';
 
 class AppBinding extends Bindings {
   @override
@@ -18,6 +18,8 @@ class AppBinding extends Bindings {
     Get.lazyPut(() => ProductServices());
     Get.lazyPut(() => ProductController(productServices: Get.find()));
 
-
+    // cart
+    Get.lazyPut(() => CartService());
+    Get.lazyPut(() => CartController(cartServices: Get.find()));
   }
 }

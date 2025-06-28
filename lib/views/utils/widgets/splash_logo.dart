@@ -47,7 +47,7 @@ class _SplashLogoScreenState extends State<SplashLogoScreen>
         child: FadeTransition(
           opacity: _opacityAnimation,
           child: Text(
-            "Clozet",
+            "Threadly",
             style: TextStyleConst().headingStyle(
               color: AppColor.white,
               size: 50,

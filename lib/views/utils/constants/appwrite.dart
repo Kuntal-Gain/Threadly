@@ -13,6 +13,7 @@ const String adsCollection = 'ads';
 // collections ids
 const String usersCollectionId = "6857c00200095eda2905";
 const String productsCollectionId = "6857c0100036c66ce49d";
+const String cartCollectionId = "6857c0410029710d1847";
 
 // storage
 const String storageBucketId = "685a6e3b00327c70a8ae";

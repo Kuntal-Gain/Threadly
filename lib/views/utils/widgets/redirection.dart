@@ -28,6 +28,6 @@ class Redirection extends StatelessWidget {
       }
     });
 
-    return SplashLogoScreen();
+    return const SplashLogoScreen();
   }
 }
