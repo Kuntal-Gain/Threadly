@@ -1,6 +1,6 @@
 import 'package:appwrite/appwrite.dart';
 import 'package:appwrite/models.dart' as models;
-import 'package:appwrite/models.dart';
+import 'package:flutter/foundation.dart';
 
 import '../models/users.dart';
 import '../views/utils/constants/appwrite.dart';
@@ -63,12 +63,12 @@ class UserServices {
         ],
       );
 
-      print("✅ User document created for ${user.email}");
+      debugPrint("✅ User document created for ${user.email}");
     } on AppwriteException catch (e) {
-      print("❌ Appwrite Error: ${e.message}");
+      debugPrint("❌ Appwrite Error: ${e.message}");
       rethrow;
     } catch (e) {
-      print("❌ Unknown Error: $e");
+      debugPrint("❌ Unknown Error: $e");
       rethrow;
     }
   }
@@ -87,7 +87,7 @@ class UserServices {
 
       return UserModel.fromMap(doc.data);
     } catch (e) {
-      print('❌ Failed to fetch user: $e');
+      debugPrint('❌ Failed to fetch user: $e');
       return null;
     }
   }
@@ -102,7 +102,7 @@ class UserServices {
         data: user.toMap(),
       );
     } catch (e) {
-      print('❌ Failed to update user: $e');
+      debugPrint('❌ Failed to update user: $e');
       rethrow;
     }
   }
@@ -143,7 +143,7 @@ class UserServices {
 
       return url;
     } catch (e) {
-      print('❌ Failed to upload image: $e');
+      debugPrint('❌ Failed to upload image: $e');
       rethrow;
     }
   }

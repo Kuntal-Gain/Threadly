@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import '../models/users.dart';
 import '../services/user_services.dart';
@@ -51,7 +52,7 @@ class UserController extends GetxController {
       // Step 5: Store locally
       currentUser.value = userModel;
     } catch (e) {
-      print('❌ Registration Error: $e');
+      debugPrint('❌ Registration Error: $e');
       rethrow;
     } finally {
       isLoading.value = false;
@@ -68,7 +69,7 @@ class UserController extends GetxController {
       await userServices.login(email: email, password: password);
       await fetchCurrentUser();
     } catch (e) {
-      print('❌ Login Error: $e');
+      debugPrint('❌ Login Error: $e');
       rethrow;
     } finally {
       isLoading.value = false;
@@ -83,7 +84,7 @@ class UserController extends GetxController {
       currentUser.value = user;
       return user;
     } catch (e) {
-      print('❌ Fetch User Error: $e');
+      debugPrint('❌ Fetch User Error: $e');
       return null;
     } finally {
       isLoading.value = false;
@@ -96,7 +97,7 @@ class UserController extends GetxController {
       await userServices.updateUser(updatedUser);
       currentUser.value = updatedUser;
     } catch (e) {
-      print('❌ Update User Error: $e');
+      debugPrint('❌ Update User Error: $e');
       rethrow;
     }
   }
@@ -117,7 +118,7 @@ class UserController extends GetxController {
       await userServices.logout();
       currentUser.value = null;
     } catch (e) {
-      print('❌ Logout Error: $e');
+      debugPrint('❌ Logout Error: $e');
     }
   }
 }

@@ -1,7 +1,6 @@
 import 'package:clozet/views/screens/auth/auth_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:ionicons_flutter/ionicons_flutter.dart';
 import '../../../controllers/user_controller.dart';
 import '../../utils/constants/color.dart';
 import '../../utils/constants/textstyle.dart';

@@ -40,7 +40,6 @@ class ProductController extends GetxController {
       await task();
     } catch (e, s) {
       debugPrint('❌ ProductController error: $e\n$s');
-      // TODO: forward to Crashlytics / Sentry if you use one
     } finally {
       isLoading.value = false;
     }

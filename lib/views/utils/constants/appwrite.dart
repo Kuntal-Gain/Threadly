@@ -1,4 +1,6 @@
 // essential
+// ignore_for_file: constant_identifier_names
+
 const String APPWRITE_PROJECT_ID = "clozet";
 const String APPWRITE_ENDPOINT = "https://nyc.cloud.appwrite.io/v1";
 const String databaseId = '6857bfdd00100fd02137';

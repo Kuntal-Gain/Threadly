@@ -35,8 +35,9 @@ class CartController extends GetxController {
     }
   }
 
-  Future<void> addItem(String productId) async {
-    await cartServices.addToCart(productId);
+  Future<void> addItem(String productId, String size, String color,
+      {int quantity = 1}) async {
+    await cartServices.addToCart(productId, size, color, quantity: quantity);
     await fetchCart(); // refresh local state
   }
 

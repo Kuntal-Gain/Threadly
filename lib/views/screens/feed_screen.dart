@@ -6,7 +6,6 @@ import 'package:google_fonts/google_fonts.dart';
 import '../../controllers/product_controller.dart';
 import '../../models/users.dart';
 import '../widgets/ad_widget.dart';
-import 'product_screen.dart';
 
 class FeedScreen extends StatefulWidget {
   final UserModel? user;
@@ -33,7 +32,6 @@ class _FeedScreenState extends State<FeedScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     productController.fetchProducts();
   }
@@ -150,7 +148,7 @@ class _FeedScreenState extends State<FeedScreen> {
                       itemBuilder: (context, index) {
                         final product = productController.products[index];
 
-                        print(product.snapshots.first);
+                        debugPrint(product.snapshots.first);
                         return GestureDetector(
                           onTap: () {
                             Get.toNamed(

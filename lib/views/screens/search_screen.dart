@@ -5,7 +5,6 @@ import '../../controllers/product_controller.dart';
 import '../../models/products.dart';
 import '../utils/constants/color.dart';
 import '../utils/constants/textstyle.dart';
-import '../widgets/ad_widget.dart';
 import 'product_screen.dart';
 
 class SearchScreen extends StatefulWidget {

@@ -5,7 +5,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/constants/textstyle.dart';
-import '../utils/widgets/redirection.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -117,7 +116,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
                               Navigator.of(context).push(
                                 MaterialPageRoute(
-                                  builder: (context) => AuthScreen(),
+                                  builder: (context) => const AuthScreen(),
                                 ),
                               );
                             }

@@ -11,9 +11,7 @@ class CartService {
     ..setEndpoint(APPWRITE_ENDPOINT)
     ..setProject(APPWRITE_PROJECT_ID);
 
-  late final Account _account = Account(_client);
   late final Databases _db = Databases(_client);
-  late final Storage _storage = Storage(_client);
 
   /// Creates a new cart for the current [user].
   /// Throws if [user] not logged in or Appwrite errors occur.
@@ -28,10 +26,15 @@ class CartService {
         collectionId: cartCollectionId,
         documentId: uid, // uid == cartId
         data: {
-          'userId': uid,
+          'cartId': uid,
           'cartItems': <String>[], // empty array
           'qtys': <int>[], // parallel empty array
           'updatedAt': DateTime.now().toIso8601String(),
+          'size': "",
+          'color': "",
+          'couponCode': null,
+          'shippingFee': null,
+          'tax': null,
         },
         permissions: [
           Permission.read(Role.user(uid)),
@@ -55,7 +58,8 @@ class CartService {
   /// Adds [productId] to the current user’s cart.
   /// If the product is already present, its quantity is bumped.
   /// Throws if user not logged in or Appwrite errors occur.
-  Future<void> addToCart(String productId) async {
+  Future<void> addToCart(String productId, String size, String color,
+      {int quantity = 1}) async {
     try {
       // 1️⃣ current user
       final uid = await UserServices().getCurrentUid();
@@ -89,9 +93,9 @@ class CartService {
       final idx = items.indexOf(productId);
       if (idx == -1) {
         items.add(productId);
-        qtys.add(1);
+        qtys.add(quantity);
       } else {
-        qtys[idx] += 1;
+        qtys[idx] += quantity;
       }
 
       // 5️⃣ write back (create or update)
@@ -100,6 +104,8 @@ class CartService {
         cartItems: items,
         qtys: qtys,
         updatedAt: DateTime.now(),
+        size: size,
+        color: color,
       ).toMap();
 
       if (cartDoc == null) {
@@ -156,6 +162,8 @@ class CartService {
           cartItems: emptyItems,
           qtys: emptyQtys,
           updatedAt: DateTime.now(),
+          size: "",
+          color: "",
         );
       }
 

@@ -32,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     userController.fetchCurrentUser();
-    print("✅ HomeScreen initialized");
+    debugPrint("✅ HomeScreen initialized");
   }
 
   @override

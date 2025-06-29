@@ -1,9 +1,9 @@
 import 'package:clozet/views/utils/constants/color.dart';
-import 'package:clozet/views/utils/constants/sizes.dart';
 import 'package:clozet/views/utils/widgets/color_conversion.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../controllers/cart_controller.dart';
 import '../../controllers/product_controller.dart';
 import '../../models/products.dart';
 import '../utils/constants/textstyle.dart';
@@ -20,6 +20,7 @@ class ProductDetailsScreen extends StatefulWidget {
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   final ProductController productController = Get.find<ProductController>();
+  final CartController cartController = Get.find<CartController>();
 
   int _currentIdx = 0;
   int _selectedSz = 0;
@@ -239,7 +240,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         ),
       );
 
-  Widget _bottomBar(Size mq) => Container(
+  Widget _bottomBar(Size mq, ProductModel p) => Container(
         width: mq.width,
         height: mq.height * .08,
         margin: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
@@ -255,18 +256,28 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             _qtySelector(mq),
             const SizedBox(width: 25),
             Expanded(
-              child: Container(
-                height: mq.height * .07,
-                margin: const EdgeInsets.all(7),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                child: Center(
-                  child: Text(
-                    'Add to Cart',
-                    style: TextStyleConst()
-                        .headingStyle(color: Colors.black, size: 26),
+              child: GestureDetector(
+                onTap: () {
+                  cartController.addItem(
+                    widget.productID,
+                    p.sizes[_selectedSz],
+                    p.colors[_selectedColor],
+                    quantity: _quantity,
+                  );
+                },
+                child: Container(
+                  height: mq.height * .07,
+                  margin: const EdgeInsets.all(7),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Add to Cart',
+                      style: TextStyleConst()
+                          .headingStyle(color: Colors.black, size: 26),
+                    ),
                   ),
                 ),
               ),
@@ -377,8 +388,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   // ─────────────────────────── build ──────────────────────────────
   @override
   Widget build(BuildContext context) {
-    final mq = MediaQuery.of(context).size;
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: Obx(() {
@@ -402,7 +411,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ),
             Align(
               alignment: Alignment.bottomCenter,
-              child: _bottomBar(MediaQuery.of(context).size),
+              child: _bottomBar(MediaQuery.of(context).size, p),
             ),
           ],
         );

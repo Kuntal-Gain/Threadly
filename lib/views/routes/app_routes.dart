@@ -1,13 +1,13 @@
 import 'package:get/get.dart';
 
 import '../screens/auth/auth_screen.dart';
+import '../screens/cart_screen.dart';
 import '../screens/feed_screen.dart';
 import '../screens/home_screen.dart';
 import '../screens/product_screen.dart';
 import '../screens/search_screen.dart';
 import '../screens/splash_screen.dart';
 import '../utils/widgets/redirection.dart';
-import '../utils/widgets/splash_logo.dart';
 
 class AppRoutes {
   static final routes = [
@@ -20,7 +20,7 @@ class AppRoutes {
     ),
     GetPage(name: '/home', page: () => const HomeScreen()),
     // GetPage(name: '/login', page: () => const LoginScreen()),
-    GetPage(name: '/auth', page: () => AuthScreen()),
+    GetPage(name: '/auth', page: () => const AuthScreen()),
     GetPage(name: '/splash', page: () => const SplashScreen()),
     // GetPage(name: '/splash-loading', page: () => const SplashLogoScreen()),
     GetPage(name: '/feed', page: () => const FeedScreen()),
@@ -33,5 +33,6 @@ class AppRoutes {
         }),
 
     GetPage(name: '/search', page: () => const SearchScreen()),
+    GetPage(name: '/cart', page: () => const CartScreen()),
   ];
 }

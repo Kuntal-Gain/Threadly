@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 Widget authProvider(String url, [Function()? onTap]) {
   onTap ??= () {
-    print("no implemented");
+    debugPrint("no implemented");
   };
   return GestureDetector(
       onTap: onTap,
@@ -12,7 +12,7 @@ Widget authProvider(String url, [Function()? onTap]) {
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 10),
             padding: const EdgeInsets.all(10),
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               shape: BoxShape.circle,
               color: Colors.white,
             ),
