@@ -20,6 +20,7 @@ class AppBinding extends Bindings {
 
     // cart
     Get.lazyPut(() => CartService());
-    Get.lazyPut(() => CartController(cartServices: Get.find()));
+    Get.lazyPut(() =>
+        CartController(cartServices: Get.find(), productServices: Get.find()));
   }
 }

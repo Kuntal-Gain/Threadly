@@ -9,9 +9,8 @@ import 'views/utils/constants/appwrite.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  Client client = Client()
-      .setEndpoint("https://nyc.cloud.appwrite.io/v1")
-      .setProject(APPWRITE_PROJECT_ID);
+  Client client =
+      Client().setEndpoint(APPWRITE_ENDPOINT).setProject(APPWRITE_PROJECT_ID);
   Account account = Account(client);
 
   debugPrint(account.get().toString());

@@ -1,6 +1,7 @@
 import 'package:clozet/models/products.dart';
 import 'package:clozet/services/product_services.dart';
 import 'package:clozet/views/utils/constants/color.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -36,6 +37,14 @@ class _CartScreenState extends State<CartScreen> {
   Future<ProductModel?> fetchProductById(String productId) async {
     return await ProductServices().fetchProductById(productId);
   }
+
+  double grandTotal(
+          double totalPrice, double tax, double shippingFee, double discount) =>
+      totalPrice == 0 ? 0 : totalPrice + tax + shippingFee - discount;
+
+  List<double> prices = [];
+
+  double getPrice(double price, int qty) => price * qty;
 
   Widget _cartItemTile({
     required ProductModel product,
@@ -104,7 +113,7 @@ class _CartScreenState extends State<CartScreen> {
                   Align(
                     alignment: Alignment.topLeft,
                     child: Text(
-                      "₹${product.price}",
+                      "₹${(product.price - (product.price * (product.discountValue / 100))) * qty}",
                       style: TextStyleConst().headingStyle(
                         color: AppColor.black,
                         size: 28,
@@ -184,6 +193,16 @@ class _CartScreenState extends State<CartScreen> {
     return Obx(() {
       final cart = cartController.cart.value;
 
+      final totalPrice = cartController.totalPrice.value;
+
+      if (cartController.isLoading.value) {
+        return const Center(
+          child: CupertinoActivityIndicator(
+            color: AppColor.black,
+          ),
+        );
+      }
+
       return Scaffold(
         backgroundColor: AppColor.white,
         appBar: AppBar(
@@ -204,24 +223,36 @@ class _CartScreenState extends State<CartScreen> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 12),
                 child: ListView.builder(
-                  itemCount: cart?.cartItems.length ?? 0,
+                  itemCount: cart!.cartItems.length,
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemBuilder: (ctx, idx) {
-                    final qty = qtys[idx];
+                    final qty = cart.qtys[idx];
 
                     return FutureBuilder<ProductModel?>(
-                        future: fetchProductById(cart!.cartItems[idx]),
+                        future: fetchProductById(cart.cartItems[idx]),
                         builder: (context, snapshot) {
+                          if (!snapshot.hasData) {
+                            return const SizedBox(
+                              height: 200,
+                              child: Center(
+                                child: CupertinoActivityIndicator(
+                                  color: AppColor.primary,
+                                ),
+                              ),
+                            );
+                          }
+
                           return _cartItemTile(
                             product: snapshot.data!,
                             qty: qty,
                             size: cart.size,
-                            onRemove: () => clearItem(idx),
-                            onAddQty: () => setState(
-                                () => qtys[idx] = qtys[idx] > 0 ? qty - 1 : 0),
-                            onRemoveQty: () =>
-                                setState(() => qtys[idx] = qty + 1),
+                            // increase
+                            onAddQty: () => cartController.incrementQty(idx),
+                            // decrease
+                            onRemoveQty: () => cartController.decrementQty(idx),
+                            // remove whole tile
+                            onRemove: () => cartController.removeByIndex(idx),
                           );
                         });
                   },
@@ -229,60 +260,62 @@ class _CartScreenState extends State<CartScreen> {
               ),
 
               // total price
-              Container(
-                height: 80,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: AppColor.primary,
-                  borderRadius: BorderRadius.circular(50),
-                ),
-                margin: const EdgeInsets.symmetric(horizontal: 12),
-                padding: const EdgeInsets.all(10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    // price
-                    Row(
-                      children: [
-                        Text(
-                          "Total ",
-                          style: TextStyleConst().regularStyle(
-                            color: AppColor.white,
-                            size: 24,
-                          ),
-                        ),
-                        Text(
-                          "\$${100.90.toStringAsFixed(2)}",
-                          style: TextStyleConst().headingStyle(
-                            color: AppColor.white,
-                            size: 26,
-                          ),
-                        ),
-                      ],
-                    ),
 
-                    // button
-
-                    Container(
-                      // height: 60,
-                      width: 160,
-                      decoration: BoxDecoration(
-                        color: AppColor.white,
-                        borderRadius: BorderRadius.circular(50),
+              if (totalPrice != 0)
+                Container(
+                  height: 80,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: AppColor.primary,
+                    borderRadius: BorderRadius.circular(50),
+                  ),
+                  margin: const EdgeInsets.symmetric(horizontal: 12),
+                  padding: const EdgeInsets.all(10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // price
+                      Row(
+                        children: [
+                          Text(
+                            "Total ",
+                            style: TextStyleConst().regularStyle(
+                              color: AppColor.white,
+                              size: 24,
+                            ),
+                          ),
+                          Text(
+                            "₹${grandTotal(totalPrice, 10.2, 29.50, 10).toStringAsFixed(2)}",
+                            style: TextStyleConst().headingStyle(
+                              color: AppColor.white,
+                              size: 26,
+                            ),
+                          ),
+                        ],
                       ),
-                      child: Center(
-                        child: Text(
-                          "Checkout",
-                          style: TextStyleConst().headingStyle(
-                            color: AppColor.black,
-                            size: 30,
+
+                      // button
+
+                      Container(
+                        // height: 60,
+                        width: 160,
+                        decoration: BoxDecoration(
+                          color: AppColor.white,
+                          borderRadius: BorderRadius.circular(50),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "Checkout",
+                            style: TextStyleConst().headingStyle(
+                              color: AppColor.black,
+                              size: 30,
+                            ),
                           ),
                         ),
-                      ),
-                    )
-                  ],
-                ),
-              )
+                      )
+                    ],
+                  ),
+                )
             ],
           ),
         ),

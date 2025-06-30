@@ -151,8 +151,14 @@ class CartService {
         documentId: uid,
       );
 
+      doc.data.forEach((key, value) {
+        debugPrint(
+            '{ Key : $key, Value : $value, Type: ${value.runtimeType} }');
+      });
+
       return CartModel.fromMap(doc.data, doc.$id);
     } on AppwriteException catch (e) {
+      debugPrint('❌ Appwrite getCart error: ${e.message}');
       // 🧱 If not found, build a blank cart
       if (e.code == 404) {
         await createCart();

@@ -24,8 +24,8 @@ class CartModel {
 
   factory CartModel.fromMap(Map<String, dynamic> map, String id) => CartModel(
         cartId: id,
-        cartItems: map['cartItems'],
-        qtys: map['qtys'],
+        cartItems: List<String>.from(map['cartItems'] ?? []),
+        qtys: List<int>.from(map['qtys'] ?? []),
         updatedAt: DateTime.parse(map['updatedAt']),
         size: map['size'],
         color: map['color'],
