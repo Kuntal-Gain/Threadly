@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../controllers/cart_controller.dart';
 import '../../controllers/product_controller.dart';
 import '../../models/users.dart';
+import '../utils/constants/color.dart';
 import '../widgets/ad_widget.dart';
 
 class FeedScreen extends StatefulWidget {
@@ -27,6 +29,7 @@ class _FeedScreenState extends State<FeedScreen> {
   ];
 
   final ProductController productController = Get.find<ProductController>();
+  final CartController cartController = Get.find<CartController>();
 
   int _currentIdx = 0;
 
@@ -38,8 +41,10 @@ class _FeedScreenState extends State<FeedScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => Scaffold(
+    return Obx(() {
+      int cartCount = cartController.cart.value!.cartItems.length;
+
+      return Scaffold(
         backgroundColor: Colors.white,
         body: SafeArea(
           child: SingleChildScrollView(
@@ -76,6 +81,56 @@ class _FeedScreenState extends State<FeedScreen> {
                           ),
                         ],
                       ),
+                      const Spacer(),
+                      GestureDetector(
+                        onTap: () {
+                          Get.toNamed('/cart');
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: AppColor.white,
+                            shape: BoxShape.circle,
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Color(0xffc2c2c2),
+                                blurRadius: 3,
+                                spreadRadius: 1,
+                              ),
+                            ],
+                          ),
+                          child: Stack(
+                            children: [
+                              const SizedBox(height: 50, width: 40),
+                              Positioned(
+                                top: 5,
+                                left: 2,
+                                child: Image.asset(
+                                  'assets/icons/market.png',
+                                  height: 35,
+                                  width: 35,
+                                ),
+                              ),
+                              Positioned(
+                                top: 0,
+                                right: 0,
+                                child: CircleAvatar(
+                                  radius: 10,
+                                  backgroundColor: Colors.red,
+                                  child: Center(
+                                    child: Text(
+                                      cartCount.toString(),
+                                      style: TextStyleConst().headingStyle(
+                                        color: Colors.white,
+                                        size: 15,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -197,7 +252,7 @@ class _FeedScreenState extends State<FeedScreen> {
             ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

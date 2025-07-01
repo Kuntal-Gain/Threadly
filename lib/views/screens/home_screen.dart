@@ -47,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
       _screens = [
         FeedScreen(user: user),
         const SearchScreen(),
-        const CartScreen(),
+        Container(child: Center(child: Text("Wishlist"))),
         ProfileScreen(user: user),
       ];
 
@@ -75,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 onTap: () => _onTap(1),
               ),
               navIcon(
-                icon: "assets/icons/market.png",
+                icon: "assets/icons/wishlist.png",
                 isSelected: _currentIdx == 2,
                 onTap: () => _onTap(2),
               ),
