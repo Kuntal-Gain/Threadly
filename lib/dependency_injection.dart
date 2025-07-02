@@ -1,10 +1,12 @@
 import 'package:clozet/controllers/product_controller.dart';
 import 'package:clozet/controllers/user_controller.dart';
+import 'package:clozet/services/order_service.dart';
 import 'package:clozet/services/product_services.dart';
 import 'package:clozet/services/user_services.dart';
 import 'package:get/get.dart';
 
 import 'controllers/cart_controller.dart';
+import 'controllers/order_controller.dart';
 import 'services/cart_service.dart';
 
 class AppBinding extends Bindings {
@@ -22,5 +24,9 @@ class AppBinding extends Bindings {
     Get.lazyPut(() => CartService());
     Get.lazyPut(() =>
         CartController(cartServices: Get.find(), productServices: Get.find()));
+
+    // orders
+    Get.lazyPut(() => OrderService());
+    Get.lazyPut(() => OrderController(orderService: Get.find()));
   }
 }

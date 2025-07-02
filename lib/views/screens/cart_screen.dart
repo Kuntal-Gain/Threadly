@@ -280,10 +280,11 @@ class _CartScreenState extends State<CartScreen> {
           child: Stack(
             children: [
               _bodyWidget(cart!, totalPrice, discount),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: _bottomBar(mq, totalPrice),
-              ),
+              if (cart.cartItems.isNotEmpty)
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: _bottomBar(mq, totalPrice),
+                ),
             ],
           ),
         ),
