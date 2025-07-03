@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../controllers/product_controller.dart';
-import '../../models/products.dart';
-import '../utils/constants/color.dart';
-import '../utils/constants/textstyle.dart';
-import 'product_screen.dart';
+import '../../../controllers/product_controller.dart';
+import '../../../models/products.dart';
+import '../../utils/constants/color.dart';
+import '../../utils/constants/textstyle.dart';
+import '../feed/product_screen.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 
 import 'views/routes/app_routes.dart';
+import 'views/screens/order/checkout_screen.dart';
 import 'views/utils/constants/appwrite.dart';
 
 void main() async {
@@ -16,7 +17,7 @@ void main() async {
   debugPrint(account.get().toString());
 
   runApp(GetMaterialApp(
-    // home: const ProductDetailsScreen(productID: "685a7cb90028a84a655a"),
+    // home: const CheckoutScreen(),
     initialBinding: AppBinding(),
     getPages: AppRoutes.routes,
     initialRoute: '/',

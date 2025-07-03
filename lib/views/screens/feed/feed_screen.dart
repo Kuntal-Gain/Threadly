@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../controllers/cart_controller.dart';
-import '../../controllers/product_controller.dart';
-import '../../models/users.dart';
-import '../utils/constants/color.dart';
-import '../widgets/ad_widget.dart';
+import '../../../controllers/cart_controller.dart';
+import '../../../controllers/product_controller.dart';
+import '../../../models/users.dart';
+import '../../utils/constants/color.dart';
+import '../../widgets/ad_widget.dart';
 
 class FeedScreen extends StatefulWidget {
   final UserModel? user;
@@ -84,7 +84,9 @@ class _FeedScreenState extends State<FeedScreen> {
                       const Spacer(),
                       GestureDetector(
                         onTap: () {
-                          Get.toNamed('/cart');
+                          Get.toNamed('/cart', arguments: {
+                            'userId': widget.user?.uid,
+                          });
                         },
                         child: Container(
                           decoration: BoxDecoration(

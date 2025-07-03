@@ -1,13 +1,13 @@
-import 'package:clozet/views/screens/cart_screen.dart';
-import 'package:clozet/views/screens/feed_screen.dart';
-import 'package:clozet/views/screens/profile_screen.dart';
+import 'package:clozet/views/screens/order/cart_screen.dart';
+import 'package:clozet/views/screens/feed/feed_screen.dart';
+import 'package:clozet/views/screens/profile/profile_screen.dart';
 import 'package:clozet/views/utils/widgets/splash_logo.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/user_controller.dart';
 import '../utils/widgets/nav_icons.dart';
-import 'search_screen.dart';
+import 'search/search_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

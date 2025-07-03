@@ -1,11 +1,12 @@
 import 'package:get/get.dart';
 
 import '../screens/auth/auth_screen.dart';
-import '../screens/cart_screen.dart';
-import '../screens/feed_screen.dart';
+import '../screens/order/cart_screen.dart';
+import '../screens/feed/feed_screen.dart';
 import '../screens/home_screen.dart';
-import '../screens/product_screen.dart';
-import '../screens/search_screen.dart';
+import '../screens/feed/product_screen.dart';
+import '../screens/order/checkout_screen.dart';
+import '../screens/search/search_screen.dart';
 import '../screens/splash_screen.dart';
 import '../utils/widgets/redirection.dart';
 
@@ -33,6 +34,12 @@ class AppRoutes {
         }),
 
     GetPage(name: '/search', page: () => const SearchScreen()),
-    GetPage(name: '/cart', page: () => const CartScreen()),
+    GetPage(
+      name: '/cart',
+      page: () => CartScreen(
+        userId: Get.arguments['userId'],
+      ),
+    ),
+    GetPage(name: '/checkout', page: () => const CheckoutScreen()),
   ];
 }

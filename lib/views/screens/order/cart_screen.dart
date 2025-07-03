@@ -1,4 +1,6 @@
+import 'package:clozet/controllers/order_controller.dart';
 import 'package:clozet/models/cart.dart';
+import 'package:clozet/models/order.dart';
 import 'package:clozet/models/products.dart';
 import 'package:clozet/services/product_services.dart';
 import 'package:clozet/views/utils/constants/color.dart';
@@ -6,12 +8,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../controllers/cart_controller.dart';
-import '../utils/constants/sizes.dart';
-import '../utils/constants/textstyle.dart';
+import '../../../controllers/cart_controller.dart';
+import '../../utils/constants/sizes.dart';
+import '../../utils/constants/textstyle.dart';
 
 class CartScreen extends StatefulWidget {
-  const CartScreen({super.key});
+  final String userId;
+  const CartScreen({super.key, required this.userId});
 
   @override
   State<CartScreen> createState() => _CartScreenState();
@@ -19,6 +22,7 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
   final CartController cartController = Get.find<CartController>();
+  final OrderController orderController = Get.find<OrderController>();
 
   @override
   void initState() {
@@ -213,26 +217,44 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  Widget _bottomBar(Size size, double totalPrice) {
-    return Container(
-      height: 80,
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: AppColor.primary,
-        borderRadius: BorderRadius.circular(50),
-      ),
-      margin: const EdgeInsets.symmetric(horizontal: 12),
-      padding: const EdgeInsets.all(10),
-      child: Center(
-        child: Text(
-          "Proceed to Checkout",
-          style: TextStyleConst().headingStyle(
-            color: AppColor.white,
-            size: 26,
+  Widget _bottomBar(Size size) {
+    return GestureDetector(
+        onTap: () {
+          orderController.createOrder(
+            OrderModel(
+              orderId: orderController.generateOrderId(),
+              userId: widget.userId,
+              productIds: cartController.cart.value!.cartItems,
+              qtys: cartController.cart.value!.qtys,
+              grandTotal: cartController.totalPrice.value,
+              createdAt: DateTime.now(),
+              deliveryAddress: "",
+              paymentMethod: "UPI",
+              statuses: ["Order Placed / ${DateTime.now().toIso8601String()}"],
+            ),
+          );
+
+          Get.until((route) => route.settings.name == '/home');
+        },
+        child: Container(
+          height: 80,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: AppColor.primary,
+            borderRadius: BorderRadius.circular(50),
           ),
-        ),
-      ),
-    );
+          margin: const EdgeInsets.symmetric(horizontal: 12),
+          padding: const EdgeInsets.all(10),
+          child: Center(
+            child: Text(
+              "Proceed to Checkout",
+              style: TextStyleConst().headingStyle(
+                color: AppColor.white,
+                size: 26,
+              ),
+            ),
+          ),
+        ));
   }
 
   @override
@@ -283,7 +305,7 @@ class _CartScreenState extends State<CartScreen> {
               if (cart.cartItems.isNotEmpty)
                 Align(
                   alignment: Alignment.bottomCenter,
-                  child: _bottomBar(mq, totalPrice),
+                  child: _bottomBar(mq),
                 ),
             ],
           ),

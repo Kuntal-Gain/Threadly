@@ -67,4 +67,10 @@ class OrderController extends GetxController {
       currentOrder.refresh();
     }
   }
+
+  String generateOrderId() {
+    final now = DateTime.now();
+    final timestamp = now.millisecondsSinceEpoch;
+    return 'ORD-$timestamp';
+  }
 }

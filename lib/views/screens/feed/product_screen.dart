@@ -3,11 +3,11 @@ import 'package:clozet/views/utils/widgets/color_conversion.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../controllers/cart_controller.dart';
-import '../../controllers/product_controller.dart';
-import '../../models/products.dart';
-import '../utils/constants/textstyle.dart';
-import '../widgets/price_widget.dart';
+import '../../../controllers/cart_controller.dart';
+import '../../../controllers/product_controller.dart';
+import '../../../models/products.dart';
+import '../../utils/constants/textstyle.dart';
+import '../../widgets/price_widget.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   const ProductDetailsScreen({super.key, required this.productID});

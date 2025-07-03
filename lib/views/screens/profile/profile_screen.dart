@@ -3,10 +3,10 @@ import 'package:clozet/views/utils/constants/sizes.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../controllers/user_controller.dart';
-import '../../models/users.dart';
-import '../utils/constants/color.dart';
-import '../utils/constants/textstyle.dart';
+import '../../../controllers/user_controller.dart';
+import '../../../models/users.dart';
+import '../../utils/constants/color.dart';
+import '../../utils/constants/textstyle.dart';
 
 class ProfileScreen extends StatelessWidget {
   final UserModel? user;

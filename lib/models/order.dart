@@ -42,6 +42,7 @@ class OrderModel {
 
   // ─────────────────────────────  toMap  ─────────────────────────────
   Map<String, dynamic> toMap() => {
+        'orderId': orderId,
         'userId': userId,
         'productIds': productIds,
         'qtys': qtys,
