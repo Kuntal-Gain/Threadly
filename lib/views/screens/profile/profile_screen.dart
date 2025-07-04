@@ -43,19 +43,12 @@ class ProfileScreen extends StatelessWidget {
             ),
           ),
           sizeVar(20),
-          profileCard(title: 'My Orders', icon: Icons.shopping_cart),
-          sizeVar(20),
-          profileCard(title: 'My Wishlist', icon: Icons.favorite),
-          sizeVar(20),
-          profileCard(title: 'My Account', icon: Icons.account_circle),
-          sizeVar(20),
-          profileCard(title: 'My Cart', icon: Icons.shopping_cart),
-          sizeVar(20),
-          profileCard(title: 'My Address', icon: Icons.location_on),
-          sizeVar(20),
-          profileCard(title: 'My Profile', icon: Icons.person),
-          sizeVar(20),
-          profileCard(title: 'My Settings', icon: Icons.settings),
+          profileCard(
+              title: 'My Orders',
+              icon: Icons.shopping_cart,
+              onTap: () {
+                Get.toNamed('/orders', arguments: {'userId': user?.uid});
+              }),
           sizeVar(20),
           profileCard(
               title: 'My Logout',

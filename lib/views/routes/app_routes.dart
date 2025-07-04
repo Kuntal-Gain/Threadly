@@ -1,3 +1,4 @@
+import 'package:clozet/views/screens/order/orders_screen.dart';
 import 'package:get/get.dart';
 
 import '../screens/auth/auth_screen.dart';
@@ -37,6 +38,12 @@ class AppRoutes {
     GetPage(
       name: '/cart',
       page: () => CartScreen(
+        userId: Get.arguments['userId'],
+      ),
+    ),
+    GetPage(
+      name: '/orders',
+      page: () => OrderScreen(
         userId: Get.arguments['userId'],
       ),
     ),

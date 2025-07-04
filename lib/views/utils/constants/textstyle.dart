@@ -21,7 +21,7 @@ class TextStyleConst {
     return GoogleFonts.bebasNeue(
       color: color,
       fontSize: size,
-      fontWeight: FontWeight.normal,
+      fontWeight: FontWeight.w300,
       textStyle: textStyle,
     );
   }

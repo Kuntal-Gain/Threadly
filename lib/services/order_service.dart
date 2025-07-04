@@ -30,6 +30,9 @@ class OrderService {
     final DocumentList docs = await _db.listDocuments(
       databaseId: databaseId,
       collectionId: ordersCollectionId,
+      queries: [
+        Query.equal('userId', userId),
+      ],
     );
 
     return docs.documents
