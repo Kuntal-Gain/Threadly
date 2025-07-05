@@ -20,7 +20,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         centerTitle: true,
         leading: Container(
           margin: const EdgeInsets.only(left: 12),
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             shape: BoxShape.circle,
             color: AppColor.primary,
           ),

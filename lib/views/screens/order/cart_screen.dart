@@ -265,9 +265,9 @@ class _CartScreenState extends State<CartScreen> {
       final discount = cartController.discountTotal.value;
 
       if (cartController.isLoading.value) {
-        return Scaffold(
+        return const Scaffold(
           backgroundColor: AppColor.white,
-          body: const Center(
+          body: Center(
             child: CupertinoActivityIndicator(
               color: AppColor.black,
             ),

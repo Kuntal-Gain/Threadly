@@ -1,4 +1,3 @@
-import 'package:clozet/views/screens/order/cart_screen.dart';
 import 'package:clozet/views/screens/feed/feed_screen.dart';
 import 'package:clozet/views/screens/profile/profile_screen.dart';
 import 'package:clozet/views/utils/widgets/splash_logo.dart';
@@ -47,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
       _screens = [
         FeedScreen(user: user),
         const SearchScreen(),
-        Container(child: Center(child: Text("Wishlist"))),
+        const Center(child: Text("Wishlist")),
         ProfileScreen(user: user),
       ];
 

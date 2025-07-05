@@ -89,10 +89,10 @@ class _FeedScreenState extends State<FeedScreen> {
                           });
                         },
                         child: Container(
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             color: AppColor.white,
                             shape: BoxShape.circle,
-                            boxShadow: const [
+                            boxShadow: [
                               BoxShadow(
                                 color: Color(0xffc2c2c2),
                                 blurRadius: 3,

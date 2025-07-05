@@ -41,7 +41,6 @@ class ProductServices {
         documentId: productId,
       );
 
-      debugPrint('✅ Document found: ${doc.data}');
       return ProductModel.fromDocument(doc);
     } on AppwriteException catch (e, s) {
       // Common 404 means "document not found"
