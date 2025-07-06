@@ -42,7 +42,11 @@ class _FeedScreenState extends State<FeedScreen> {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      int cartCount = cartController.cart.value!.cartItems.length;
+      int cartCount = cartController.cart.value?.cartItems.length ?? 0;
+
+      if (productController.isLoading.value) {
+        return const Center(child: CircularProgressIndicator());
+      }
 
       return Scaffold(
         backgroundColor: Colors.white,

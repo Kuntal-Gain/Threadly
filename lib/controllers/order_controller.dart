@@ -33,10 +33,24 @@ class OrderController extends GetxController {
   }
 
   /// Fetch all orders for [userId] and cache in `orders`.
+  // Future<void> fetchOrders(String userId) async {
+  //   isLoading.value = true;
+  //   try {
+  //     final fetched = await orderService.fetchOrders(userId);
+  //     orders.assignAll(fetched);
+  //   } finally {
+  //     isLoading.value = false;
+  //   }
+  // }
+
   Future<void> fetchOrders(String userId) async {
     isLoading.value = true;
     try {
       final fetched = await orderService.fetchOrders(userId);
+
+      // Sort by `createdAt` descending (newest first)
+      fetched.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+
       orders.assignAll(fetched);
     } finally {
       isLoading.value = false;
